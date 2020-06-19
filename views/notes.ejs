@@ -34,14 +34,19 @@
           type="text"
           class="form-control"
           name="name"
+          id="name"
           placeholder="title"
         />
       </div>
       <div class="form-group">
         <label for="">Notes</label>
-        <textarea class="form-control" name="notes" id="" rows="3"></textarea>
+        <textarea
+          class="form-control"
+          name="notes"
+          id="notes"
+          rows="3"
+        ></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     <div id="notes-section"></div>
     <!-- Optional JavaScript -->
@@ -61,44 +66,10 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <script src="/js/phoenix.js"></script>
     <script>
-      $("#notes-form").submit(function (e) {
-        e.preventDefault();
-        var form_data = $(this)
-          .serializeArray()
-          .reduce(function (obj, item) {
-            obj[item.name] = item.value;
-            return obj;
-          }, {});
-
-        fetch("https://sphxchat.herokuapp.com/api/notes", {
-          method: "post",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: JSON.stringify(form_data),
-        })
-          .then(function (response) {
-            return response.json();
-          })
-          .then(function (data) {
-            $("#notes-section").append(addNotes(data));
-          });
-      });
-
-      $(window).on("load", function () {
-        return fetch("https://sphxchat.herokuapp.com/api/notes/<%= room_id%>")
-          .then((response) => {
-            return response.json();
-          })
-          .then((json) =>
-            json.forEach((element) => {
-              $("#notes-section").append(addNotes(element));
-            })
-          );
-      });
-
       function addNotes(data) {
+        console.log(data);
         return `<div class="card">
       <div class="card-body">
         <h4 class="card-title">${data.name}</h4>
@@ -106,6 +77,46 @@
       </div>
       </div>`;
       }
+
+      let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
+        params: { token: window.userToken },
+      });
+      //   let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+      //     params: { token: window.userToken },
+      //   });
+      socket.connect();
+
+      let room = "<%= room_id%>";
+      let channel = socket.channel("room:" + room, {});
+
+      channel.on("notes", function (payload) {
+        console.log(payload);
+        $("#notes-section").append(addNotes(payload));
+      });
+
+      channel.join().receive("ok", (resp) => {
+        console.log("Joined successfully", resp);
+      }); // join the channel.
+
+      let note_name = document.getElementById("name"); // list of messages.
+      //   let name = document.getElementById("name"); // name of message sender
+      let notes = document.getElementById("notes"); // message input field
+
+      // "listen" for the [Enter] keypress event to send a message:
+      notes.addEventListener("keypress", function (event) {
+        if (event.keyCode == 13 && notes.value.length > 0) {
+          // don't sent empty msg.
+          channel.push("notes", {
+            // send the message to the server on "shout" channel
+            // name: name.value, // get value of "name" of person sending the message
+            notes: notes.value, // get message text (value) from msg input field.
+            room: room,
+            name: note_name.value,
+          });
+          notes.value = ""; // reset the message input field for next message.
+          note_name.value = "";
+        }
+      });
     </script>
   </body>
 </html>
