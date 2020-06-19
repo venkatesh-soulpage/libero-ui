@@ -4,9 +4,6 @@ var path = require("path");
 var bodyParser = require("body-parser");
 app.use(express.static(path.join(__dirname, "public")));
 
-var cors = require("cors");
-
-app.use(cors());
 //Set view engine to ejs
 app.set("view engine", "ejs");
 
