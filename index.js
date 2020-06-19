@@ -5,6 +5,10 @@ var bodyParser = require("body-parser");
 var http = require("http").createServer(app);
 app.use(express.static(path.join(__dirname, "public")));
 
+require("dotenv").config();
+
+var port = process.env.PORT || 3000;
+
 //Set view engine to ejs
 app.set("view engine", "ejs");
 
@@ -28,6 +32,6 @@ app.get("/notes/:room_id", (req, res) => {
   res.render("notes", { room_id: req.params.room_id });
 });
 
-http.listen(3000, function () {
+http.listen(port, function () {
   console.log("listening on *:3000");
 });
