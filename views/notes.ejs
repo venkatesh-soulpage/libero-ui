@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Notes</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <form id="notes-form" method="post">
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          name="room"
+          hidden
+          value="<%= room_id%>"
+        />
+      </div>
+      <div class="form-group">
+        <label for="">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          placeholder="title"
+        />
+      </div>
+      <div class="form-group">
+        <label for="">Notes</label>
+        <textarea class="form-control" name="notes" id="" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <div id="notes-section"></div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $("#notes-form").submit(function (e) {
+        e.preventDefault();
+        var form_data = $(this)
+          .serializeArray()
+          .reduce(function (obj, item) {
+            obj[item.name] = item.value;
+            return obj;
+          }, {});
+
+        fetch("https://sphxchat.herokuapp.com/api/notes", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: JSON.stringify(form_data),
+        })
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (data) {
+            $("#notes-section").append(addNotes(data));
+          });
+      });
+
+      $(window).on("load", function () {
+        return fetch("https://sphxchat.herokuapp.com/api/notes/<%= room_id%>")
+          .then((response) => {
+            return response.json();
+          })
+          .then((json) =>
+            json.forEach((element) => {
+              $("#notes-section").append(addNotes(element));
+            })
+          );
+      });
+
+      function addNotes(data) {
+        return `<div class="card">
+      <div class="card-body">
+        <h4 class="card-title">${data.name}</h4>
+        <p class="card-text">${data.notes}</p>
+      </div>
+      </div>`;
+      }
+    </script>
+  </body>
+</html>

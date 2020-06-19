@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>WhiteBoard</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <style>
+      #container {
+        position: relative;
+      }
+
+      #imageTemp {
+        position: absolute;
+        top: 1px;
+        left: 1px;
+      }
+      canvas {
+        border-radius: 5px;
+        cursor: url(../icons/pencil.svg), crosshair;
+      }
+      #text_tool {
+        position: absolute;
+        border: 1px dashed black;
+        outline: 0;
+        z-index: 1000 !important;
+        display: none;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .cstm-font {
+        font-size: 0.875rem;
+      }
+      #line-Width,
+      #draw-text-font-size {
+        height: calc(1.2em + 0.5rem + 2px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <input
+          type="text"
+          id="room-id"
+          style="display: none;"
+          value="<%=room_id%>"
+        />
+        <div
+          class="card card-body col-6 mx-auto mt-4"
+          style="background-color: #ececec; border-radius: 10px;"
+        >
+          <div class="justify-content-between d-flex">
+            <button
+              class="btn btn-sm border-0 bg-transparent"
+              id="pencil-button"
+              value="pencil"
+            >
+              <img src="/icons/pencil.svg" alt="" class="d-block mx-auto" />
+              <span class="d-block mt-2">Pencil</span>
+            </button>
+            <button
+              class="btn btn-sm border-0 bg-transparent"
+              id="rect-button"
+              value="rect"
+            >
+              <img src="/icons/rectangle.svg" alt="" class="d-block mx-auto" />
+              <span class="d-block mt-2">Rectangle</span>
+            </button>
+            <button
+              class="btn btn-sm border-0 bg-transparent"
+              id="circle-button"
+              value="circle"
+            >
+              <img src="/icons/circle.svg" alt="" class="d-block mx-auto" />
+              <span class="d-block mt-2">Circle</span>
+            </button>
+            <button
+              class="btn btn-sm border-0 bg-transparent"
+              id="ellipse-button"
+              value="ellipse"
+            >
+              <img src="/icons/ellipse.svg" alt="" class="d-block mx-auto" />
+              <span class="d-block mt-2">Ellipse</span>
+            </button>
+            <button
+              class="btn btn-sm border-0 bg-transparent"
+              id="line-button"
+              value="line"
+            >
+              <img src="/icons/line.svg" alt="" class="d-block mx-auto" />
+              <span class="d-block mt-2">Line</span>
+            </button>
+            <button
+              class="btn btn-sm border-0 bg-transparent"
+              id="text-button"
+              value="text"
+            >
+              <img src="/icons/text.svg" alt="" class="d-block mx-auto" />
+              <span class="d-block mt-2">Text</span>
+            </button>
+            <button class="btn btn-sm border-0 bg-transparent" id="clear-all">
+              <img src="/icons/trash.svg" alt="" class="d-block mx-auto" />
+              <span class="d-block mt-2">Clear All</span>
+            </button>
+            <span class="my-auto text-center cstm-font">
+              <button
+                class="btn rounded-circle color-click"
+                style="width: 25px; height: 25px;"
+              ></button>
+              <input type="color" name="" id="colour-picker" hidden />
+              <span class="d-block mt-1">Color</span>
+            </span>
+            <span class="my-auto text-center cstm-font"
+              ><input
+                type="number"
+                name=""
+                id="line-Width"
+                class="form-control form-control-sm mx-auto"
+                value="2"
+                min="2"
+                max="20"
+              />
+              <span class="d-block mt-1">Thickness</span></span
+            >
+            <span class="my-auto text-center cstm-font">
+              <input
+                type="number"
+                name=""
+                id="draw-text-font-size"
+                class="form-control form-control-sm mx-auto"
+                value="12"
+                min="12"
+                max="50"
+              />
+              <span class="d-block mt-1">Font Size</span></span
+            >
+            <!-- <button class="btn btn-sm border-0">
+              <input type="color" name="" id="colour-picker" hidden />
+              <span class="d-block mt-1">Color</span>
+            </button>
+            <button class="btn btn-sm border-0 bg-transparent">
+              <input
+                type="number"
+                name=""
+                id="line-Width"
+                class="form-control form-control-sm"
+                value="2"
+                min="2"
+                max="20"
+              />
+              <span class="d-block mt-1">Thickness</span>
+            </button>
+            <button class="btn btn-sm border-0 bg-transparent">
+              <input
+                type="number"
+                name=""
+                id="draw-text-font-size"
+                class="form-control form-control-sm"
+                value="12"
+                min="12"
+                max="50"
+              />
+              <span class="d-block mt-1">Font Size</span>
+            </button> -->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="container" class="">
+          <canvas id="imageView" width="1800" height="700"> </canvas>
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="/js/phoenix.js"></script>
+    <script src="/js/canvas.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var board_url = window.location.href;
+        $(".linkToBoard").attr("href", board_url);
+        document
+          .querySelector(".color-click")
+          .addEventListener("click", (e) =>
+            document.querySelector("#colour-picker").click()
+          );
+      });
+    </script>
+  </body>
+</html>
