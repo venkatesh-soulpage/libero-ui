@@ -16,39 +16,55 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <style>
+        body{
+            background-color: #dddddd;
+        }
+      textarea:focus,
+      input:focus {
+        outline: none;
+      }
+      textarea {
+        overflow: hidden;
+        resize: none;
+        display: block;
+      }
+      .cstm-notes{
+          border-radius: 10px;
+      }
+    </style>
   </head>
   <body>
-    <form id="notes-form" method="post">
-      <div class="form-group">
-        <input
-          type="text"
-          class="form-control"
-          name="room"
-          hidden
-          value="<%= room_id%>"
-        />
+    <div class="container">
+      <div class="row">
+        <div class="card card-body col-md-4 mx-auto cstm-notes shadow mt-4">
+          <input
+            type="text"
+            name="name"
+            id="note_name"
+            placeholder="Title"
+            class="border-0 p-2"
+            autocomplete="off"
+          />
+          <textarea
+            name="notes"
+            id="notes"
+            cols="30"
+            rows="1"
+            placeholder="Take a Note...."
+            class="border-0 p-2"
+          ></textarea>
+          <span class="ml-auto ">
+              <button class="btn border-0 text-secondary" id="cancel">Cancel</button>
+              <button class="btn border-0 text-secondary" id="save">Save</button>
+          </span>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="">Title</label>
-        <input
-          type="text"
-          class="form-control"
-          name="name"
-          id="name"
-          placeholder="title"
-        />
-      </div>
-      <div class="form-group">
-        <label for="">Notes</label>
-        <textarea
-          class="form-control"
-          name="notes"
-          id="notes"
-          rows="3"
-        ></textarea>
-      </div>
-    </form>
-    <div id="notes-section"></div>
+      <div class="row my-5" >
+          <div class="card-columns mx-auto" id="notes-section"></div>
+        
+    </div>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
@@ -66,31 +82,32 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+
     <script src="/js/phoenix.js"></script>
+    
     <script>
       function addNotes(data) {
-        console.log(data);
-        return `<div class="card">
+        return `<div class="card shadow-sm cstm-notes my-2">
       <div class="card-body">
         <h4 class="card-title">${data.name}</h4>
         <p class="card-text">${data.notes}</p>
       </div>
       </div>`;
       }
+      
 
-      let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
-        params: { token: window.userToken },
-      });
-      //   let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
-      //     params: { token: window.userToken },
-      //   });
+        let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
+          params: { token: window.userToken },
+        });
+    //   let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+    //     params: { token: window.userToken },
+    //   });
       socket.connect();
 
       let room = "<%= room_id%>";
       let channel = socket.channel("room:" + room, {});
 
       channel.on("notes", function (payload) {
-        console.log(payload);
         $("#notes-section").append(addNotes(payload));
       });
 
@@ -98,25 +115,38 @@
         console.log("Joined successfully", resp);
       }); // join the channel.
 
-      let note_name = document.getElementById("name"); // list of messages.
-      //   let name = document.getElementById("name"); // name of message sender
+      let note_name = document.getElementById("note_name"); // list of messages.
+        let save_btn = document.getElementById("save"); 
+        let cancel_btn = document.getElementById("cancel"); 
       let notes = document.getElementById("notes"); // message input field
 
       // "listen" for the [Enter] keypress event to send a message:
-      notes.addEventListener("keypress", function (event) {
-        if (event.keyCode == 13 && notes.value.length > 0) {
-          // don't sent empty msg.
-          channel.push("notes", {
+      save_btn.addEventListener("click", function (event) {
+        channel.push("notes", {
             // send the message to the server on "shout" channel
             // name: name.value, // get value of "name" of person sending the message
             notes: notes.value, // get message text (value) from msg input field.
             room: room,
             name: note_name.value,
           });
-          notes.value = ""; // reset the message input field for next message.
-          note_name.value = "";
-        }
+          note_name.value = ""
+          notes.value = ""
       });
+      cancel_btn.addEventListener("click", function (event) {
+        note_name.value = ""
+          notes.value = ""
+          autosize()
+      });
+
+      notes.addEventListener("keydown", autosize);
+
+      function autosize() {
+        var el = notes;
+        setTimeout(function () {
+          el.style.cssText = "height:auto; padding:0";
+          el.style.cssText = "height:" + el.scrollHeight + "px";
+        }, 0);
+      }
     </script>
   </body>
 </html>
