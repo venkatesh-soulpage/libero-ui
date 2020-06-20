@@ -17,9 +17,9 @@
       crossorigin="anonymous"
     />
     <style>
-        body{
-            background-color: #dddddd;
-        }
+      body {
+        background-color: #dddddd;
+      }
       textarea:focus,
       input:focus {
         outline: none;
@@ -29,8 +29,8 @@
         resize: none;
         display: block;
       }
-      .cstm-notes{
-          border-radius: 10px;
+      .cstm-notes {
+        border-radius: 10px;
       }
     </style>
   </head>
@@ -54,15 +54,17 @@
             placeholder="Take a Note...."
             class="border-0 p-2"
           ></textarea>
-          <span class="ml-auto ">
-              <button class="btn border-0 text-secondary" id="cancel">Cancel</button>
-              <button class="btn border-0 text-secondary" id="save">Save</button>
+          <span class="ml-auto">
+            <button class="btn border-0 text-secondary" id="cancel">
+              Cancel
+            </button>
+            <button class="btn border-0 text-secondary" id="save">Save</button>
           </span>
         </div>
       </div>
-      <div class="row my-5" >
-          <div class="card-columns mx-auto" id="notes-section"></div>
-        
+      <div class="row my-5">
+        <div class="card-columns mx-auto" id="notes-section"></div>
+      </div>
     </div>
 
     <!-- Optional JavaScript -->
@@ -84,24 +86,23 @@
     ></script>
 
     <script src="/js/phoenix.js"></script>
-    
+
     <script>
       function addNotes(data) {
         return `<div class="card shadow-sm cstm-notes my-2">
       <div class="card-body">
         <h4 class="card-title">${data.name}</h4>
-        <p class="card-text">${data.notes}</p>
+        <p class="card-text" style="white-space:pre-wrap">${data.notes}</p>
       </div>
       </div>`;
       }
-      
 
-        let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
-          params: { token: window.userToken },
-        });
-    //   let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
-    //     params: { token: window.userToken },
-    //   });
+      let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
+        params: { token: window.userToken },
+      });
+      //   let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+      //     params: { token: window.userToken },
+      //   });
       socket.connect();
 
       let room = "<%= room_id%>";
@@ -116,26 +117,30 @@
       }); // join the channel.
 
       let note_name = document.getElementById("note_name"); // list of messages.
-        let save_btn = document.getElementById("save"); 
-        let cancel_btn = document.getElementById("cancel"); 
+      let save_btn = document.getElementById("save");
+      let cancel_btn = document.getElementById("cancel");
       let notes = document.getElementById("notes"); // message input field
 
       // "listen" for the [Enter] keypress event to send a message:
       save_btn.addEventListener("click", function (event) {
-        channel.push("notes", {
+        console.log();
+        if (notes.value.replace(/\s+/g, "").length > 0) {
+          channel.push("notes", {
             // send the message to the server on "shout" channel
             // name: name.value, // get value of "name" of person sending the message
             notes: notes.value, // get message text (value) from msg input field.
             room: room,
-            name: note_name.value,
+            name: note_name.value || "no-title",
           });
-          note_name.value = ""
-          notes.value = ""
+        }
+        note_name.value = "";
+        notes.value = "";
+        autosize();
       });
       cancel_btn.addEventListener("click", function (event) {
-        note_name.value = ""
-          notes.value = ""
-          autosize()
+        note_name.value = "";
+        notes.value = "";
+        autosize();
       });
 
       notes.addEventListener("keydown", autosize);
