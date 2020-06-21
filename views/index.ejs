@@ -52,6 +52,10 @@
         outline: none !important;
         font-size: 22px;
       }
+      #cnct-boards,
+      #cnct-notes {
+        pointer-events: none;
+      }
     </style>
   </head>
   <body>
@@ -105,6 +109,7 @@
                     type="text"
                     name=""
                     id="boards-id"
+                    oninput="activateBtn('#cnct-boards')"
                     class="border-0 w-100 p-2 cstm-input enter-meet-code"
                     placeholder="Enter Meeting Code"
                   />
@@ -112,6 +117,7 @@
                 <div
                   class="connect-btn d-flex align-items-center my-3 justify-content-center w-25 mx-3"
                   id="cnct-boards"
+                  onclick="getinput('#boards-id','boards')"
                 >
                   Connect to Boards
                 </div>
@@ -123,6 +129,7 @@
                     type="text"
                     name=""
                     id="notes-id"
+                    oninput="activateBtn('#cnct-notes')"
                     class="border-0 w-100 p-2 cstm-input enter-meet-code"
                     placeholder="Enter Meeting Code"
                   />
@@ -130,6 +137,7 @@
                 <div
                   class="connect-btn d-flex align-items-center my-3 justify-content-center w-25 mx-3"
                   id="cnct-notes"
+                  onclick="getinput('#notes-id','notes')"
                 >
                   Connect to Notes
                 </div>
@@ -157,16 +165,25 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      $("#cnct-boards").click(function () {
-        var url =
-          "https://libero-ui.herokuapp.com/boards/" + $("#boards-id").val();
-        window.open(url, "_blank");
-      });
-      $("#cnct-notes").click(function () {
-        var url =
-          "https://libero-ui.herokuapp.com/notes/" + $("#notes-id").val();
-        window.open(url, "_blank");
-      });
+      function getinput(element_id, path) {
+        if ($(element_id).val() != "") {
+          var url =
+            window.location.protocol +
+            "//" +
+            window.location.hostname +
+            (window.location.port ? ":" + window.location.port : "") +
+            "/" +
+            $(element_id).val() +
+            "/" +
+            path;
+          window.open(url, "_blank");
+        }
+      }
+
+      function activateBtn(element_id) {
+        console.log("changed");
+        $(element_id).css({ "pointer-events": "auto", cursor: "pointer" });
+      }
     </script>
   </body>
 </html>
