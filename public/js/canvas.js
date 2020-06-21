@@ -63,6 +63,13 @@
             alert("Error: I cannot create a new canvas element!");
             return;
           }
+          if (canvaso.width < window.innerWidth) {
+            canvaso.width = window.innerWidth - 100;
+          }
+
+          if (canvaso.height < window.innerHeight) {
+            canvaso.height = window.innerHeight - 200;
+          }
 
           canvas.id = "imageTemp";
           canvas.width = canvaso.width;
