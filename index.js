@@ -19,19 +19,19 @@ app.set("views", __dirname + "/views");
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //Instead of sending Hello World, we render index.ejs
-app.get("/(:room_id)?", (req, res) => {
+app.get("/?", (req, res) => {
   res.render("index");
 });
 
-app.get("/:room_id/chat", (req, res) => {
+app.get("/chat/:room_id", (req, res) => {
   res.render("chat", { room_id: req.params.room_id });
 });
 
-app.get("/:room_id/boards", (req, res) => {
+app.get("/boards/:room_id", (req, res) => {
   res.render("board", { room_id: req.params.room_id });
 });
 
-app.get("/:room_id/notes", (req, res) => {
+app.get("/notes/:room_id", (req, res) => {
   res.render("notes", { room_id: req.params.room_id });
 });
 

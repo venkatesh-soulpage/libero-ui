@@ -173,9 +173,9 @@
             window.location.hostname +
             (window.location.port ? ":" + window.location.port : "") +
             "/" +
-            $(element_id).val() +
+            path +
             "/" +
-            path;
+            $(element_id).val();
           window.open(url, "_blank");
         }
       }
