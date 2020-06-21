@@ -19,6 +19,9 @@ app.set("views", __dirname + "/views");
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //Instead of sending Hello World, we render index.ejs
+app.get("/", (req, res) => {
+  res.render("index");
+});
 
 app.get("/chat/:room_id", (req, res) => {
   res.render("chat", { room_id: req.params.room_id });
