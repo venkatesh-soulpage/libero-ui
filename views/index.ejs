@@ -9,7 +9,6 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <link rel="icon" href="/icons/Logo (1).ico" type="image/x-icon" />
-
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -42,7 +41,7 @@
       }
       .enter-meet-code {
         border-radius: 15px;
-        width: 30%;
+        /* width: 30%; */
         font-size: 20px;
       }
       .connect-btn {
@@ -51,18 +50,46 @@
         color: #fff !important;
         outline: none !important;
         font-size: 22px;
+        width: 25% !important;
       }
       #cnct-boards,
       #cnct-notes {
         pointer-events: none;
       }
+      .btn:focus,
+      .btn:active {
+        outline: none !important;
+        box-shadow: none;
+      }
+      /* responsive */
+      @media (min-width: 768px) and (max-width: 991px) {
+        .connect-btn {
+          font-size: 18px;
+        }
+      }
+      @media (min-width: 576px) and (max-width: 767px) {
+        .connect-btn {
+          font-size: 16px;
+          width: 28% !important;
+        }
+      }
+      @media (max-width: 575px) {
+        .connect-btn {
+          width: 90% !important;
+          padding: 13px 0px;
+        }
+        .enter-meet-code {
+          width: 90% !important;
+          font-size: 17px;
+        }
+      }
     </style>
   </head>
   <body>
     <nav
-      class="navbar navbar-expand-sm navbar-light bg-light border-bottom px-5"
+      class="navbar navbar-expand-sm navbar-light bg-light border-bottom px-sm-5 px-4"
     >
-      <a class="navbar-brand px-5" href="#"
+      <a class="navbar-brand px-0 px-sm-5" href="#"
         ><img class="img-fluid logo" src="/icons/logo.png"
       /></a>
       <button
@@ -110,12 +137,12 @@
                     name=""
                     id="boards-id"
                     oninput="activateBtn('#cnct-boards')"
-                    class="border-0 w-100 p-2 cstm-input enter-meet-code"
+                    class="border-0 p-2 cstm-input enter-meet-code"
                     placeholder="Enter Meeting Code"
                   />
                 </div>
                 <div
-                  class="connect-btn d-flex align-items-center my-3 justify-content-center w-25 mx-3"
+                  class="connect-btn d-flex align-items-center my-3 justify-content-center mx-3"
                   id="cnct-boards"
                   onclick="getinput('#boards-id','boards')"
                 >
@@ -130,12 +157,12 @@
                     name=""
                     id="notes-id"
                     oninput="activateBtn('#cnct-notes')"
-                    class="border-0 w-100 p-2 cstm-input enter-meet-code"
+                    class="border-0 p-2 cstm-input enter-meet-code"
                     placeholder="Enter Meeting Code"
                   />
                 </div>
                 <div
-                  class="connect-btn d-flex align-items-center my-3 justify-content-center w-25 mx-3"
+                  class="connect-btn d-flex align-items-center my-3 justify-content-center mx-3"
                   id="cnct-notes"
                   onclick="getinput('#notes-id','notes')"
                 >
@@ -179,9 +206,7 @@
           window.open(url, "_blank");
         }
       }
-
       function activateBtn(element_id) {
-        console.log("changed");
         $(element_id).css({ "pointer-events": "auto", cursor: "pointer" });
       }
     </script>

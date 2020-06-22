@@ -8,7 +8,6 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -32,12 +31,24 @@
       .cstm-notes {
         border-radius: 10px;
       }
+      .btn:focus,
+      .btn:active {
+        outline: none !important;
+        box-shadow: none;
+      }
+      @media (max-width: 575px) {
+        .for-notes {
+          margin: 0px 10%;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="row">
-        <div class="card card-body col-md-4 mx-auto cstm-notes shadow mt-4">
+      <div class="row for-notes">
+        <div
+          class="card card-body col-sm-9 col-md-9 col-lg-4 mx-auto cstm-notes shadow mt-4"
+        >
           <input
             type="text"
             name="name"
@@ -63,10 +74,9 @@
         </div>
       </div>
       <div class="row my-5">
-        <div class="card-columns mx-auto" id="notes-section"></div>
+        <div class="card-columns mx-auto w-75" id="notes-section"></div>
       </div>
     </div>
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
@@ -84,9 +94,7 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-
     <script src="/js/phoenix.js"></script>
-
     <script>
       function addNotes(data) {
         return `<div class="card shadow-sm cstm-notes my-2">
@@ -96,7 +104,6 @@
       </div>
       </div>`;
       }
-
       let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
         params: { token: window.userToken },
       });
@@ -104,23 +111,18 @@
       //     params: { token: window.userToken },
       //   });
       socket.connect();
-
       let room = "<%= room_id%>";
       let channel = socket.channel("room:" + room, {});
-
       channel.on("notes", function (payload) {
         $("#notes-section").append(addNotes(payload));
       });
-
       channel.join().receive("ok", (resp) => {
         console.log("Joined successfully", resp);
       }); // join the channel.
-
       let note_name = document.getElementById("note_name"); // list of messages.
       let save_btn = document.getElementById("save");
       let cancel_btn = document.getElementById("cancel");
       let notes = document.getElementById("notes"); // message input field
-
       // "listen" for the [Enter] keypress event to send a message:
       save_btn.addEventListener("click", function (event) {
         console.log();
@@ -142,9 +144,7 @@
         notes.value = "";
         autosize();
       });
-
       notes.addEventListener("keydown", autosize);
-
       function autosize() {
         var el = notes;
         setTimeout(function () {

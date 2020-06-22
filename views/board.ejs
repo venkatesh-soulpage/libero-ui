@@ -8,7 +8,6 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -20,7 +19,6 @@
       #container {
         position: relative;
       }
-
       #imageTemp {
         position: absolute;
         top: 1px;
@@ -47,11 +45,32 @@
       #draw-text-font-size {
         height: calc(1.2em + 0.5rem + 2px);
       }
+      .btn:focus,
+      .btn:active {
+        outline: none !important;
+        box-shadow: none;
+      }
+      @media (min-width: 576px) and (max-width: 767px) {
+        .for-board {
+          margin: 0px 1%;
+        }
+      }
+      @media (max-width: 575px) {
+        .for-board {
+          margin: 0px 10%;
+        }
+        .for-color {
+          margin-top: -1.5rem !important;
+          margin-left: auto;
+          width: 25%;
+          margin-bottom: 1rem;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="container-fluid">
-      <div class="row">
+      <div class="row for-board">
         <input
           type="text"
           id="room-id"
@@ -59,10 +78,10 @@
           value="<%=room_id%>"
         />
         <div
-          class="card card-body col-6 mx-auto mt-4"
+          class="card card-body col-xl-6 col-lg-8 col-md-10 mx-auto mt-4"
           style="background-color: #ececec; border-radius: 10px;"
         >
-          <div class="justify-content-between d-flex">
+          <div class="justify-content-between d-sm-flex">
             <button
               class="btn btn-sm border-0 bg-transparent"
               id="pencil-button"
@@ -115,13 +134,13 @@
               <img src="/icons/trash.svg" alt="" class="d-block mx-auto" />
               <span class="d-block mt-2">Clear All</span>
             </button>
-            <span class="my-auto text-center cstm-font">
+            <span class="my-auto cstm-font">
               <button
                 class="btn rounded-circle color-click"
                 style="width: 25px; height: 25px;"
               ></button>
               <input type="color" name="" id="colour-picker" hidden />
-              <span class="d-block mt-1">Color</span>
+              <span class="d-block for-color mt-1">Color</span>
             </span>
             <span class="my-auto text-center cstm-font"
               ><input
@@ -173,10 +192,8 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-
     <script src="/js/phoenix.js"></script>
     <script src="/js/canvas.js"></script>
-
     <script type="text/javascript">
       $(document).ready(function () {
         var board_url = window.location.href;
