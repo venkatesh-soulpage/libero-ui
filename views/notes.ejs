@@ -23,6 +23,9 @@
       input:focus {
         outline: none;
       }
+      .logo {
+        width: 150px;
+      }
       textarea {
         overflow: hidden;
         resize: none;
@@ -44,6 +47,28 @@
     </style>
   </head>
   <body>
+    <nav
+      class="navbar navbar-expand-sm navbar-light bg-light border-bottom px-sm-5 px-4"
+    >
+      <a class="navbar-brand px-0 px-sm-5" href="#"
+        ><img class="img-fluid logo" src="/icons/notes_logo.svg"
+      /></a>
+      <button
+        class="navbar-toggler d-lg-none"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="collapse navbar-collapse justify-content-end ml-5 ml-sm-0"
+        id="collapsibleNavId"
+      ></div>
+    </nav>
     <div class="container">
       <div class="row for-notes">
         <div
