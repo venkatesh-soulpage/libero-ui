@@ -26,6 +26,16 @@
       .logo {
         width: 150px;
       }
+      .dot {
+        width: 3px;
+        height: 3px;
+        margin: 5px;
+        background: #424344;
+        border-radius: 50%;
+      }
+      .menu-section {
+        cursor: pointer;
+      }
       textarea {
         overflow: hidden;
         resize: none;
@@ -73,28 +83,56 @@
       <div class="row for-notes">
         <div
           class="card card-body col-sm-9 col-md-9 col-lg-4 mx-auto cstm-notes shadow mt-4"
+          id="create-notes"
         >
           <input
             type="text"
-            name="name"
-            id="note_name"
+            id="title"
             placeholder="Title"
             class="border-0 p-2"
             autocomplete="off"
           />
           <textarea
-            name="notes"
             id="notes"
             cols="30"
             rows="1"
             placeholder="Take a Note...."
             class="border-0 p-2"
           ></textarea>
-          <span class="ml-auto">
+          <span class="d-flex justify-content-end">
             <button class="btn border-0 text-secondary" id="cancel">
               Cancel
             </button>
-            <button class="btn border-0 text-secondary" id="save">Save</button>
+            <button class="btn border-0 text-secondary" id="save">
+              Save
+            </button>
+          </span>
+        </div>
+        <div
+          id="edit-notes"
+          class="card card-body col-sm-9 col-md-9 col-lg-4 mx-auto cstm-notes shadow mt-4 d-none"
+        >
+          <input
+            type="text"
+            id="update-title"
+            placeholder="Title"
+            class="border-0 p-2"
+            autocomplete="off"
+          />
+          <textarea
+            id="update-notes"
+            cols="30"
+            rows="1"
+            placeholder="Take a Note...."
+            class="border-0 p-2"
+          ></textarea>
+          <span class="d-flex justify-content-end">
+            <button class="btn border-0 text-secondary" id="cancel-update">
+              Cancel
+            </button>
+            <button class="btn border-0 text-secondary" id="update">
+              Save
+            </button>
           </span>
         </div>
       </div>
@@ -102,6 +140,7 @@
         <div class="card-columns mx-auto w-75" id="notes-section"></div>
       </div>
     </div>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
@@ -121,62 +160,156 @@
     ></script>
     <script src="/js/phoenix.js"></script>
     <script>
-      function addNotes(data) {
-        return `<div class="card shadow-sm cstm-notes my-2">
-      <div class="card-body">
-        <h4 class="card-title">${data.name}</h4>
-        <p class="card-text" style="white-space:pre-wrap">${data.notes}</p>
-      </div>
-      </div>`;
-      }
-      let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
-        params: { token: window.userToken },
-      });
-      //   let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
-      //     params: { token: window.userToken },
-      //   });
-      socket.connect();
-      let room = "<%= room_id%>";
-      let channel = socket.channel("room:" + room, {});
-      channel.on("notes", function (payload) {
-        $("#notes-section").append(addNotes(payload));
-      });
-      channel.join().receive("ok", (resp) => {
-        console.log("Joined successfully", resp);
-      }); // join the channel.
-      let note_name = document.getElementById("note_name"); // list of messages.
-      let save_btn = document.getElementById("save");
-      let cancel_btn = document.getElementById("cancel");
-      let notes = document.getElementById("notes"); // message input field
-      // "listen" for the [Enter] keypress event to send a message:
-      save_btn.addEventListener("click", function (event) {
-        console.log();
-        if (notes.value.replace(/\s+/g, "").length > 0) {
-          channel.push("notes", {
-            // send the message to the server on "shout" channel
-            // name: name.value, // get value of "name" of person sending the message
-            notes: notes.value, // get message text (value) from msg input field.
-            room: room,
-            name: note_name.value || "no-title",
+      var NoteScreen = {
+        socket: new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
+          params: { token: window.userToken },
+        }),
+        // socket: new Phoenix.Socket("ws://localhost:4000/socket", {
+        //   params: { token: window.userToken },
+        // }),
+        room: `<%= room_id%>`,
+        title: document.getElementById("title"),
+        notes: document.getElementById("notes"),
+        edit_title: document.getElementById("update-title"),
+        edit_notes: document.getElementById("update-notes"),
+        save: document.getElementById("save"),
+        update: document.getElementById("update"),
+        cancel: document.getElementById("cancel"),
+        cancel_form: document.getElementById("cancel-update"),
+        edit_form: document.getElementById("edit-notes"),
+        create_form: document.getElementById("create-notes"),
+        addNotes: function (data) {
+          var element_data;
+          element_data = `<div id="${data.id}" class="card card-body shadow-sm cstm-notes my-2">`;
+          element_data += `<div class="d-flex justify-content-between">`;
+          element_data += `<div><h4 class="card-title">${data.name}</h4>`;
+          element_data += `<p class="card-text" style="white-space:pre-wrap">${data.notes}</p>`;
+          element_data += `</div><div class="dropdown">`;
+          element_data += `<div class="menu-section " id="notesMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">`;
+          element_data += `<div class="dot"></div>`.repeat(3) + `</div>`;
+          element_data += `<div class="dropdown-menu" aria-labelledby="notesMenu">`;
+          // element_data += `<a class="dropdown-item pin" href="#" >Pin</a>`;
+          element_data += `<a class="dropdown-item edit" href="#" data-content='${JSON.stringify(
+            data
+          )}'>Edit</a>`;
+          element_data += `<a class="dropdown-item delete"  href="#" data-content="${data.id}">Delete</a>`;
+          element_data += `</div>`.repeat(2);
+
+          $("#notes-section").append(element_data);
+        },
+        editNotes: function (event) {
+          NoteScreen.create_form.classList.add("d-none");
+          var data = JSON.parse($(this).attr("data-content"));
+          NoteScreen.tmp_notes = data;
+          $(`#${data.id}`).hide();
+          NoteScreen.edit_title.value = data.name;
+          NoteScreen.edit_notes.value = data.notes;
+          NoteScreen.edit_form.classList.remove("d-none");
+          NoteScreen.autosize(NoteScreen.edit_notes);
+        },
+        updateNotes: function (data) {
+          NoteScreen.edit_form.classList.add("d-none");
+          NoteScreen.create_form.classList.remove("d-none");
+          $(`#${data.id}`).find(".card-title").val(data.name);
+          $(`#${data.id}`).find(".card-text").text(data.notes);
+          $(`#${data.id}`)
+            .find(".edit")
+            .attr("data-content", JSON.stringify(data));
+          $(`#${data.id}`).show();
+          NoteScreen.tmp_notes = null;
+        },
+        deleteNotes: function () {
+          var id = $(this).attr("data-content");
+          NoteScreen.channel.push("deletenotes", {
+            id: parseInt(id),
           });
-        }
-        note_name.value = "";
-        notes.value = "";
-        autosize();
+        },
+        onDeleteNotes: function (data) {
+          $(`#${data.id}`).remove();
+        },
+        autosize: function (element) {
+          setTimeout(function () {
+            element.style.cssText = "height:auto; padding:0";
+            element.style.cssText = "height:" + element.scrollHeight + "px";
+          }, 0);
+        },
+      };
+      NoteScreen.save.addEventListener(
+        "click",
+        function () {
+          if (NoteScreen.notes.value.replace(/\s+/g, "").length > 0) {
+            NoteScreen.channel.push("notes", {
+              // send the message to the server on "shout" channel
+              notes: NoteScreen.notes.value, // get message text (value) from msg input field.
+              room: NoteScreen.room,
+              name: NoteScreen.title.value || "no-title",
+            });
+          }
+          NoteScreen.title.value = "";
+          NoteScreen.notes.value = "";
+          NoteScreen.autosize(NoteScreen.notes);
+        },
+        false
+      );
+      NoteScreen.update.addEventListener(
+        "click",
+        function () {
+          if (NoteScreen.edit_notes.value.replace(/\s+/g, "").length > 0) {
+            NoteScreen.channel.push("editnotes", {
+              // send the message to the server on "shout" channel
+              notes: NoteScreen.edit_notes.value, // get message text (value) from msg input field.
+              name: NoteScreen.edit_title.value || "no-title",
+              id: NoteScreen.tmp_notes.id,
+            });
+          }
+          NoteScreen.edit_title.value = "";
+          NoteScreen.edit_notes.value = "";
+          NoteScreen.autosize(NoteScreen.edit_notes);
+        },
+        false
+      );
+      NoteScreen.cancel.addEventListener(
+        "click",
+        function () {
+          NoteScreen.title.value = "";
+          NoteScreen.notes.value = "";
+          NoteScreen.autosize(NoteScreen.notes);
+        },
+        false
+      );
+      NoteScreen.cancel_form.addEventListener(
+        "click",
+        function () {
+          NoteScreen.edit_title.value = "";
+          NoteScreen.edit_notes.value = "";
+          NoteScreen.autosize(NoteScreen.edit_notes);
+          NoteScreen.edit_form.classList.add("d-none");
+          NoteScreen.create_form.classList.remove("d-none");
+          $(`#${NoteScreen.tmp_notes.id}`).show();
+        },
+        false
+      );
+
+      NoteScreen.socket.connect();
+      NoteScreen.channel = NoteScreen.socket.channel(
+        "room:" + NoteScreen.room,
+        {}
+      );
+      NoteScreen.channel.on("notes", NoteScreen.addNotes);
+      NoteScreen.channel.on("editnotes", NoteScreen.updateNotes);
+      NoteScreen.channel.on("deletenotes", NoteScreen.onDeleteNotes);
+      NoteScreen.channel.join().receive("ok", (resp) => {
+        console.log("Joined successfully", resp);
       });
-      cancel_btn.addEventListener("click", function (event) {
-        note_name.value = "";
-        notes.value = "";
-        autosize();
+
+      $(document).on("click", ".edit", NoteScreen.editNotes);
+      $(document).on("click", ".delete", NoteScreen.deleteNotes);
+      $(document).on("keydown", "#notes", function () {
+        NoteScreen.autosize(this);
       });
-      notes.addEventListener("keydown", autosize);
-      function autosize() {
-        var el = notes;
-        setTimeout(function () {
-          el.style.cssText = "height:auto; padding:0";
-          el.style.cssText = "height:" + el.scrollHeight + "px";
-        }, 0);
-      }
+      $(document).on("keydown", "#update-notes", function () {
+        NoteScreen.autosize(this);
+      });
     </script>
   </body>
 </html>
