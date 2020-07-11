@@ -198,6 +198,9 @@
           $("#notes-section").append(element_data);
         },
         editNotes: function (event) {
+          if ($("#edit-notes").is(":visible")) {
+            NoteScreen.cancel_form.click();
+          }
           NoteScreen.create_form.classList.add("d-none");
           var data = JSON.parse($(this).attr("data-content"));
           NoteScreen.tmp_notes = data;
