@@ -161,12 +161,12 @@
     <script src="/js/phoenix.js"></script>
     <script>
       var NoteScreen = {
-        socket: new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
-          params: { token: window.userToken },
-        }),
-        // socket: new Phoenix.Socket("ws://localhost:4000/socket", {
+        // socket: new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
         //   params: { token: window.userToken },
         // }),
+        socket: new Phoenix.Socket("ws://localhost:4000/socket", {
+          params: { token: window.userToken },
+        }),
         room: `<%= room_id%>`,
         title: document.getElementById("title"),
         notes: document.getElementById("notes"),
@@ -208,15 +208,12 @@
           NoteScreen.autosize(NoteScreen.edit_notes);
         },
         updateNotes: function (data) {
-          NoteScreen.edit_form.classList.add("d-none");
-          NoteScreen.create_form.classList.remove("d-none");
           $(`#${data.id}`).find(".card-title").val(data.name);
           $(`#${data.id}`).find(".card-text").text(data.notes);
           $(`#${data.id}`)
             .find(".edit")
             .attr("data-content", JSON.stringify(data));
-          $(`#${data.id}`).show();
-          NoteScreen.tmp_notes = null;
+          // NoteScreen.tmp_notes = null;
         },
         deleteNotes: function () {
           var id = $(this).attr("data-content");
@@ -265,6 +262,9 @@
           NoteScreen.edit_title.value = "";
           NoteScreen.edit_notes.value = "";
           NoteScreen.autosize(NoteScreen.edit_notes);
+          NoteScreen.edit_form.classList.add("d-none");
+          NoteScreen.create_form.classList.remove("d-none");
+          $(`#${NoteScreen.tmp_notes.id}`).show();
         },
         false
       );
