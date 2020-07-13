@@ -8,13 +8,13 @@
   var lineWidthPicked;
   var SelectedFontFamily;
   var SelectedFontSize;
-  // let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
-  //   params: { token: window.userToken },
-  // });
-
-  let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+  let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
     params: { token: window.userToken },
   });
+
+  // let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+  //   params: { token: window.userToken },
+  // });
 
   socket.connect();
   let room = $("#room-id").val();
