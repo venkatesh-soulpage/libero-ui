@@ -8,13 +8,13 @@
   var lineWidthPicked;
   var SelectedFontFamily;
   var SelectedFontSize;
-  let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
-    params: { token: window.userToken },
-  });
-
-  // let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+  // let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
   //   params: { token: window.userToken },
   // });
+
+  let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+    params: { token: window.userToken },
+  });
 
   socket.connect();
   let room = $("#room-id").val();
@@ -148,6 +148,33 @@
 
           $("#text-button").click(function () {
             pic_tool_click(this);
+          });
+          channel.on("mousemove", addMouse);
+          function addMouse(data) {
+            if ($(`.for-board`).children(`#${data.user}`).length > 0) {
+              $(`#${data.user}`).offset(data.cpos);
+            } else {
+              var mouse_div = document.createElement("div");
+              var mouse_text = document.createElement("span");
+              var mouse_img = document.createElement("img");
+              mouse_img.src = "/icons/cursor.svg";
+              mouse_div.id = `${data.user}`;
+              mouse_text.innerText = data.user;
+              mouse_div.classList.add("mouse-text");
+
+              mouse_div.appendChild(mouse_img);
+              mouse_div.appendChild(mouse_text);
+
+              $(`.for-board`).append(mouse_div);
+              $(`#${data.user}`).offset(data.cpos);
+            }
+          }
+          canvas.addEventListener("mousemove", function (e) {
+            var cpos = { top: e.clientY + 10, left: e.clientX + 10 };
+            // console.log(cpos, "canvas");
+            var user_id = $("#user-id").val();
+
+            channel.push("mousemove", { user: user_id, cpos: cpos });
           });
 
           //Draw Grids
