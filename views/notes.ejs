@@ -211,7 +211,7 @@
           NoteScreen.autosize(NoteScreen.edit_notes);
         },
         updateNotes: function (data) {
-          $(`#${data.id}`).find(".card-title").val(data.name);
+          $(`#${data.id}`).find(".card-title").text(data.name);
           $(`#${data.id}`).find(".card-text").text(data.notes);
           $(`#${data.id}`)
             .find(".edit")
