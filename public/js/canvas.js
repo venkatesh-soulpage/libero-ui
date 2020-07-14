@@ -169,7 +169,7 @@
               $(`#${data.user}`).offset(data.cpos);
             }
           }
-          canvas.addEventListener("mousemove", function (e) {
+          document.addEventListener("mousemove", function (e) {
             var cpos = { top: e.clientY + 10, left: e.clientX + 10 };
             // console.log(cpos, "canvas");
             var user_id = $("#user-id").val();
