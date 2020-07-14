@@ -27,17 +27,15 @@ app.get("/chat/:room_id", (req, res) => {
   res.render("chat", { room_id: req.params.room_id });
 });
 
-app.get("/boards/:room_id/(:user_id)?", (req, res) => {
+app.get("/boards/:room_id", (req, res) => {
   res.render("board", {
     room_id: req.params.room_id,
-    user_id: req.params.user_id,
   });
 });
 
-app.get("/notes/:room_id/(:user_id)?", (req, res) => {
+app.get("/notes/:room_id", (req, res) => {
   res.render("notes", {
     room_id: req.params.room_id,
-    user_id: req.params.user_id,
   });
 });
 
