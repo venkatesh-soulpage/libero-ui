@@ -8,6 +8,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
+
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -19,22 +20,15 @@
       body {
         background-color: #dddddd;
       }
+      .cstm-btn {
+        width: 25px;
+        height: 25px;
+        padding: 0px;
+        display: inline-block;
+      }
       textarea:focus,
       input:focus {
         outline: none;
-      }
-      .logo {
-        width: 150px;
-      }
-      .dot {
-        width: 3px;
-        height: 3px;
-        margin: 5px;
-        background: #424344;
-        border-radius: 50%;
-      }
-      .menu-section {
-        cursor: pointer;
       }
       textarea {
         overflow: hidden;
@@ -49,9 +43,95 @@
         outline: none !important;
         box-shadow: none;
       }
+      /* .dropdown:hover > .dropdown-menu {
+        display: block;
+        margin: 0;
+      } */
+      .default {
+        background-color: #fff !important;
+      }
+      .red {
+        background-color: #f28b82 !important;
+      }
+      .orange {
+        background-color: #fbbc04 !important;
+      }
+      .yellow {
+        background-color: #fff475 !important;
+      }
+      .green {
+        background-color: #ccff90 !important;
+      }
+      .teal {
+        background-color: #a7ffeb !important;
+      }
+      .purple {
+        background-color: #d7aefb !important;
+      }
+      .darkblue {
+        background-color: #aecbfa !important;
+      }
+      .dot {
+        width: 3px;
+        height: 3px;
+        margin: 5px;
+        background: #424344;
+        border-radius: 50%;
+      }
+      .card-footer {
+        display: none;
+      }
+      .card:hover > .card-footer {
+        display: block;
+      }
       @media (max-width: 575px) {
         .for-notes {
-          margin: 0px 10%;
+          margin: 0px 1%;
+        }
+      }
+
+      @media (max-width: 575.98px) {
+        .card-columns {
+          column-count: 1;
+        }
+        .container .card {
+          width: 100%;
+        }
+      }
+
+      @media (min-width: 576px) and (max-width: 767.98px) {
+        .card-columns {
+          column-count: 1;
+        }
+        .container .card {
+          width: 100%;
+        }
+      }
+
+      @media (min-width: 768px) and (max-width: 991.98px) {
+        .card-columns {
+          column-count: 3;
+        }
+        .container .card {
+          width: 75%;
+        }
+      }
+
+      @media (min-width: 992px) and (max-width: 1199.98px) {
+        .card-columns {
+          column-count: 4;
+        }
+        .container .card {
+          width: 50%;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .card-columns {
+          column-count: 5;
+        }
+        .container .card {
+          width: 50%;
         }
       }
     </style>
@@ -79,75 +159,19 @@
         id="collapsibleNavId"
       ></div>
     </nav>
+
     <div class="container">
-      <div class="row for-notes">
-        <div
-          class="card card-body col-sm-9 col-md-9 col-lg-4 mx-auto cstm-notes shadow mt-4"
-          id="create-notes"
-        >
-          <input
-            type="text"
-            id="title"
-            placeholder="Title"
-            class="border-0 p-2"
-            autocomplete="off"
-          />
-          <textarea
-            id="notes"
-            cols="30"
-            rows="1"
-            placeholder="Take a Note...."
-            class="border-0 p-2"
-          ></textarea>
-          <span class="d-flex justify-content-end">
-            <button class="btn border-0 text-secondary" id="cancel">
-              Cancel
-            </button>
-            <button class="btn border-0 text-secondary" id="save">
-              Save
-            </button>
-          </span>
-        </div>
-        <div
-          id="edit-notes"
-          class="card card-body col-sm-9 col-md-9 col-lg-4 mx-auto cstm-notes shadow mt-4 d-none"
-        >
-          <input
-            type="text"
-            id="update-title"
-            placeholder="Title"
-            class="border-0 p-2"
-            autocomplete="off"
-          />
-          <textarea
-            id="update-notes"
-            cols="30"
-            rows="1"
-            placeholder="Take a Note...."
-            class="border-0 p-2"
-          ></textarea>
-          <span class="d-flex justify-content-end">
-            <button class="btn border-0 text-secondary" id="cancel-update">
-              Cancel
-            </button>
-            <button class="btn border-0 text-secondary" id="update">
-              Save
-            </button>
-          </span>
-        </div>
-      </div>
+      <div class="row for-notes"></div>
+    </div>
+    <div class="container-fluid">
       <div class="row my-5">
-        <div class="card-columns mx-auto w-75" id="notes-section"></div>
+        <div class="card-columns m-3"></div>
       </div>
     </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
       integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -160,158 +184,259 @@
     ></script>
     <script src="/js/phoenix.js"></script>
     <script>
-      var NoteScreen = {
-        socket: new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
-          params: { token: window.userToken },
-        }),
-        // socket: new Phoenix.Socket("ws://localhost:4000/socket", {
-        //   params: { token: window.userToken },
-        // }),
-        room: `<%= room_id%>`,
-        title: document.getElementById("title"),
-        notes: document.getElementById("notes"),
-        edit_title: document.getElementById("update-title"),
-        edit_notes: document.getElementById("update-notes"),
-        save: document.getElementById("save"),
-        update: document.getElementById("update"),
-        cancel: document.getElementById("cancel"),
-        cancel_form: document.getElementById("cancel-update"),
-        edit_form: document.getElementById("edit-notes"),
-        create_form: document.getElementById("create-notes"),
-        addNotes: function (data) {
-          var element_data;
-          element_data = `<div id="${data.id}" class="card card-body shadow-sm cstm-notes my-2">`;
-          element_data += `<div class="d-flex justify-content-between">`;
-          element_data += `<div><h4 class="card-title">${data.name}</h4>`;
-          element_data += `<p class="card-text" style="white-space:pre-wrap">${data.notes}</p>`;
-          element_data += `</div><div class="dropdown">`;
-          element_data += `<div class="menu-section " id="notesMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">`;
-          element_data += `<div class="dot"></div>`.repeat(3) + `</div>`;
-          element_data += `<div class="dropdown-menu" aria-labelledby="notesMenu">`;
-          // element_data += `<a class="dropdown-item pin" href="#" >Pin</a>`;
-          element_data += `<a class="dropdown-item edit" href="#" data-content='${JSON.stringify(
-            data
-          )}'>Edit</a>`;
-          element_data += `<a class="dropdown-item delete"  href="#" data-content="${data.id}">Delete</a>`;
-          element_data += `</div>`.repeat(2);
-
-          $("#notes-section").append(element_data);
-        },
-        editNotes: function (event) {
-          if ($("#edit-notes").is(":visible")) {
-            NoteScreen.cancel_form.click();
-          }
-          NoteScreen.create_form.classList.add("d-none");
-          var data = JSON.parse($(this).attr("data-content"));
-          NoteScreen.tmp_notes = data;
-          $(`#${data.id}`).hide();
-          NoteScreen.edit_title.value = data.name;
-          NoteScreen.edit_notes.value = data.notes;
-          NoteScreen.edit_form.classList.remove("d-none");
-          NoteScreen.autosize(NoteScreen.edit_notes);
-        },
-        updateNotes: function (data) {
-          $(`#${data.id}`).find(".card-title").text(data.name);
-          $(`#${data.id}`).find(".card-text").text(data.notes);
-          $(`#${data.id}`)
-            .find(".edit")
-            .attr("data-content", JSON.stringify(data));
-          // NoteScreen.tmp_notes = null;
-        },
-        deleteNotes: function () {
-          var id = $(this).attr("data-content");
-          NoteScreen.channel.push("deletenotes", {
-            id: parseInt(id),
-          });
-        },
-        onDeleteNotes: function (data) {
-          $(`#${data.id}`).remove();
-        },
-        autosize: function (element) {
-          setTimeout(function () {
-            element.style.cssText = "height:auto; padding:0";
-            element.style.cssText = "height:" + element.scrollHeight + "px";
-          }, 0);
-        },
-      };
-      NoteScreen.save.addEventListener(
-        "click",
-        function () {
-          if (NoteScreen.notes.value.replace(/\s+/g, "").length > 0) {
-            NoteScreen.channel.push("notes", {
-              // send the message to the server on "shout" channel
-              notes: NoteScreen.notes.value, // get message text (value) from msg input field.
-              room: NoteScreen.room,
-              name: NoteScreen.title.value || "no-title",
-            });
-          }
-          NoteScreen.title.value = "";
-          NoteScreen.notes.value = "";
-          NoteScreen.autosize(NoteScreen.notes);
-        },
-        false
-      );
-      NoteScreen.update.addEventListener(
-        "click",
-        function () {
-          if (NoteScreen.edit_notes.value.replace(/\s+/g, "").length > 0) {
-            NoteScreen.channel.push("editnotes", {
-              // send the message to the server on "shout" channel
-              notes: NoteScreen.edit_notes.value, // get message text (value) from msg input field.
-              name: NoteScreen.edit_title.value || "no-title",
-              id: NoteScreen.tmp_notes.id,
-            });
-          }
-          NoteScreen.edit_title.value = "";
-          NoteScreen.edit_notes.value = "";
-          NoteScreen.autosize(NoteScreen.edit_notes);
-          NoteScreen.edit_form.classList.add("d-none");
-          NoteScreen.create_form.classList.remove("d-none");
-          $(`#${NoteScreen.tmp_notes.id}`).show();
-        },
-        false
-      );
-      NoteScreen.cancel.addEventListener(
-        "click",
-        function () {
-          NoteScreen.title.value = "";
-          NoteScreen.notes.value = "";
-          NoteScreen.autosize(NoteScreen.notes);
-        },
-        false
-      );
-      NoteScreen.cancel_form.addEventListener(
-        "click",
-        function () {
-          NoteScreen.edit_title.value = "";
-          NoteScreen.edit_notes.value = "";
-          NoteScreen.autosize(NoteScreen.edit_notes);
-          NoteScreen.edit_form.classList.add("d-none");
-          NoteScreen.create_form.classList.remove("d-none");
-          $(`#${NoteScreen.tmp_notes.id}`).show();
-        },
-        false
-      );
-
-      NoteScreen.socket.connect();
-      NoteScreen.channel = NoteScreen.socket.channel(
-        "room:" + NoteScreen.room,
-        {}
-      );
-      NoteScreen.channel.on("notes", NoteScreen.addNotes);
-      NoteScreen.channel.on("editnotes", NoteScreen.updateNotes);
-      NoteScreen.channel.on("deletenotes", NoteScreen.onDeleteNotes);
-      NoteScreen.channel.join().receive("ok", (resp) => {
+      var currentUser = "<%= user_id%>";
+      var currentRoom = "<%= room_id%>";
+      // var socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
+      //   params: { token: window.userToken },
+      // });
+      var socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+        params: { token: window.userToken },
+      });
+      socket.connect();
+      var channel = socket.channel("room:" + currentRoom, {});
+      channel.join().receive("ok", (resp) => {
         console.log("Joined successfully", resp);
       });
 
-      $(document).on("click", ".edit", NoteScreen.editNotes);
-      $(document).on("click", ".delete", NoteScreen.deleteNotes);
-      $(document).on("keydown", "#notes", function () {
-        NoteScreen.autosize(this);
+      channel.on("notes", function (data) {
+        $(".card-columns").append(CreatedNote(data));
+        AutoSize($(`#${data.id}`).find(".notes")[0]);
       });
-      $(document).on("keydown", "#update-notes", function () {
-        NoteScreen.autosize(this);
+      channel.on("editnotes", function (data) {
+        $(`#${data.id}`).replaceWith(CreatedNote(data));
+        AutoSize($(`#${data.id}`).find(".notes")[0]);
+      });
+      channel.on("deletenotes", function (data) {
+        $(`#${data.id}`).remove();
+      });
+      var colors = [
+        { name: "White", code: "#fff" },
+        { name: "Red", code: "#f28b82" },
+        { name: "Orange", code: "#fbbc04" },
+        { name: "Yellow", code: "#fff475" },
+        { name: "Green", code: "#ccff90" },
+        { name: "Teal", code: "#a7ffeb" },
+        { name: "Purple", code: "#d7aefb" },
+        { name: "DarkBlue", code: "#aecbfa" },
+      ];
+      function AutoSize(element) {
+        setTimeout(function () {
+          element.style.cssText = "height:auto; padding:0";
+          element.style.cssText = "height:" + element.scrollHeight + "px";
+        }, 0);
+      }
+
+      function MenuSnippet(data) {
+        var menu = `<div class="dropdown">`;
+        menu += `<div data-toggle="dropdown" id="menu">`;
+        menu += `<div class="dot"></div>`.repeat(3);
+        menu += `</div><div class="dropdown-menu w-25 p-3" >`;
+        menu += `<a class="dropdown-item copy" data-content="${data.id}">Make a copy</a>`;
+        menu += `<a class="dropdown-item delete" data-content="${data.id}">Delete</a>`;
+        menu += `</div>`.repeat(2);
+        return menu;
+      }
+
+      function CreatedNote(data) {
+        var notes = "";
+        if (data) {
+          notes += `<div class="card shadow cstm-notes my-3 ${
+            data.bgcolor
+          }" id="${data.id}" data-content='${JSON.stringify(data)}'>`;
+          notes += MenuSnippet(data);
+          notes += `<div class="card-body"><img class="uploaded img-fluid" alt="" src="${data.image}" />`;
+          notes += `<input type="text" class="border-0 p-2 title w-100 bg-transparent" placeholder="Title" autocomplete="off" value="${data.name}"/>`;
+          notes += `<textarea class="border-0 p-2 notes w-100 bg-transparent" placeholder="Take a Note...">${data.notes}</textarea>`;
+        } else {
+          notes += `<div class="card shadow cstm-notes mx-auto my-3 white">`;
+          notes += `<div class="card-body"><img class="uploaded img-fluid" alt="" hidden />`;
+          notes += `<input type="text" class="border-0 p-2 title w-100 bg-transparent" placeholder="Title" autocomplete="off" />`;
+          notes += `<textarea class="border-0 p-2 notes w-100 bg-transparent" placeholder="Take a Note..."></textarea>`;
+        }
+
+        notes += `</div><div class="card-footer bg-transparent border-0">`;
+        notes += `<div class="d-flex align-items-center"><div class="dropdown">`;
+        notes += `<button class="rounded-circle cstm-btn" id="hoverColors" data-toggle="dropdown"></button>`;
+        notes += `<div class="dropdown-menu w-25 p-3">`;
+        colors.forEach((element) => {
+          notes += `<button value="${
+            element.code
+          }" class="rounded-circle cstm-btn dropdown-item ${element.name.toLowerCase()}" title="${
+            element.name
+          }"></button>`;
+        });
+        notes += `</div>`.repeat(2);
+        notes += `<div><form class="upload-form"><input type="file" name="image" hidden /></form>`;
+        notes += `<button class="rounded-circle cstm-btn image-btn"></button></div>`;
+        notes += `<div class="ml-auto"><button class="btn border-0 text-secondary cancel">Cancel</button>`;
+        if (data) {
+          notes += `<button class="btn border-0 text-secondary update">Save</button>`;
+        } else {
+          notes += `<button class="btn border-0 text-secondary save">Save</button>`;
+        }
+        notes += `</div>`.repeat(4);
+        return notes;
+      }
+
+      $(document).on("keydown", ".notes", function () {
+        AutoSize(this);
+      });
+
+      $(document).on("click", ".cancel", function () {
+        var parent_card = $(this).closest(".card");
+        if (!$(parent_card).attr("id")) {
+          $(parent_card).find(".title").val("");
+          $(parent_card).find(".notes").val("");
+          AutoSize($(parent_card).find(".notes")[0]);
+        } else {
+          var data = JSON.parse($(parent_card).attr("data-content"));
+          $(parent_card).replaceWith(CreatedNote(data));
+          AutoSize($(parent_card).find(".notes")[0]);
+        }
+      });
+      $(document).on("click", ".save", function () {
+        var parent_card = $(this).closest(".card");
+        var color_selected;
+        colors.forEach((element) => {
+          if ($(parent_card).hasClass(element.name.toLowerCase())) {
+            color_selected = element.name.toLowerCase();
+          }
+        });
+
+        if (
+          $(parent_card).find("input[type='file']")[0].files &&
+          $(parent_card).find("input[type='file']")[0].files[0]
+        ) {
+          $.ajax({
+            type: "POST",
+            url: "/upload",
+            enctype: "multipart/form-data",
+            data: new FormData($(parent_card).find(".upload-form")[0]),
+            processData: false,
+            contentType: false,
+            success: function (data) {
+              console.log(data);
+              channel.push("notes", {
+                name: $(parent_card).find(".title").val() || "Untitled",
+                notes: $(parent_card).find(".notes").val(),
+                created: currentUser,
+                room: currentRoom,
+                image: data.response_data.Location,
+                bgcolor: color_selected,
+              });
+            },
+          });
+        } else {
+          channel.push("notes", {
+            name: $(parent_card).find(".title").val(),
+            notes: $(parent_card).find(".notes").val(),
+            created: currentUser,
+            room: currentRoom,
+            bgcolor: color_selected,
+          });
+        }
+        $(parent_card).replaceWith(CreatedNote());
+      });
+      $(document).on("click", ".update", function () {
+        var parent_card = $(this).closest(".card");
+        var card_data = JSON.parse($(parent_card).attr("data-content"));
+        var color_selected;
+        colors.forEach((element) => {
+          if ($(parent_card).hasClass(element.name.toLowerCase())) {
+            color_selected = element.name.toLowerCase();
+          }
+        });
+        if (
+          $(parent_card).find("input[type='file']")[0].files &&
+          $(parent_card).find("input[type='file']")[0].files[0]
+        ) {
+          $.ajax({
+            type: "POST",
+            url: "/upload",
+            enctype: "multipart/form-data",
+            data: new FormData($(parent_card).find(".upload-form")[0]),
+            processData: false,
+            contentType: false,
+            success: function (data) {
+              console.log(data);
+
+              channel.push("editnotes", {
+                name: $(parent_card).find(".title").val() || "Untitled",
+                notes: $(parent_card).find(".notes").val(),
+                updated: currentUser,
+                created: card_data.created,
+                room: currentRoom,
+                image: data.response_data.Location,
+                bgcolor: color_selected || data.bgcolor,
+                id: card_data.id,
+              });
+            },
+          });
+        } else {
+          channel.push("editnotes", {
+            name: $(parent_card).find(".title").val() || "Untitled",
+            notes: $(parent_card).find(".notes").val(),
+            updated: currentUser,
+            created: card_data.created,
+            room: currentRoom,
+            bgcolor: color_selected || data.bgcolor,
+            image: card_data.image,
+            id: card_data.id,
+          });
+        }
+      });
+      $(document).on("click", ".image-btn", function () {
+        var parent_card = $(this).closest(".card");
+        $(parent_card).find("input[type='file']").click();
+      });
+      $(document).on("change", "input[type='file']", function () {
+        var parent_card = $(this).closest(".card");
+        if (this.files && this.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            $(parent_card)
+              .find(".uploaded")
+              .removeAttr("hidden")
+              .attr("src", e.target.result);
+          };
+
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+
+      $(document).on("click", ".dropdown-item", function () {
+        var parent_card = $(this).closest(".card");
+        if ($(this).is("[data-content]")) {
+          var id = parseInt($(this).attr("data-content"));
+          if ($(this).hasClass("copy")) {
+            var duplicate_data = JSON.parse($(`#${id}`).attr("data-content"));
+
+            channel.push("notes", {
+              bgcolor: duplicate_data.bgcolor,
+              created: currentUser,
+              room: duplicate_data.room,
+              notes: duplicate_data.notes,
+              name: duplicate_data.name,
+              image: duplicate_data.image,
+            });
+          } else if ($(this).hasClass("delete")) {
+            channel.push("deletenotes", {
+              id: id,
+            });
+          }
+        } else {
+          colors.forEach((element) => {
+            if ($(parent_card).hasClass(element.name.toLowerCase())) {
+              $(parent_card).removeClass(element.name.toLowerCase());
+            }
+          });
+          $(parent_card).addClass($(this).attr("title").toLowerCase());
+        }
+      });
+
+      $(document).ready(function () {
+        $(".for-notes").append(CreatedNote());
       });
     </script>
   </body>
