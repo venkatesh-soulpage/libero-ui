@@ -75,64 +75,41 @@
         width: 3px;
         height: 3px;
         margin: 5px;
-        background: #424344;
+        background: #000;
         border-radius: 50%;
       }
-      .card-footer {
+      /* .card-footer {
+        display: none;
+      }
+      .card:hover > .card-footer {
+        display: block;
+      } */
+      .card-footer:only-child {
         display: none;
       }
       .card:hover > .card-footer {
         display: block;
       }
-      @media (max-width: 575px) {
-        .for-notes {
-          margin: 0px 1%;
-        }
-      }
 
-      @media (max-width: 575.98px) {
-        .card-columns {
-          column-count: 1;
-        }
-        .container .card {
-          width: 100%;
-        }
+      .card-columns {
+        column-count: 1;
       }
-
-      @media (min-width: 576px) and (max-width: 767.98px) {
-        .card-columns {
-          column-count: 1;
-        }
-        .container .card {
-          width: 100%;
-        }
+      .menu-section {
+        position: absolute;
+        top: 20px;
+        right: 10px;
       }
-
-      @media (min-width: 768px) and (max-width: 991.98px) {
-        .card-columns {
-          column-count: 3;
-        }
-        .container .card {
-          width: 75%;
-        }
+      #hoverColors {
+        background: transparent;
+        background-image: url("/icons/bgcolor.svg");
+        border: 0;
+        padding: 5px;
       }
-
-      @media (min-width: 992px) and (max-width: 1199.98px) {
-        .card-columns {
-          column-count: 4;
-        }
-        .container .card {
-          width: 50%;
-        }
-      }
-
-      @media (min-width: 1200px) {
-        .card-columns {
-          column-count: 5;
-        }
-        .container .card {
-          width: 50%;
-        }
+      .image-btn {
+        border: 0;
+        background: transparent;
+        background-image: url("/icons/image.svg");
+        padding: 5px;
       }
     </style>
   </head>
@@ -160,14 +137,15 @@
       ></div>
     </nav>
 
-    <div class="container">
+    <!-- <div class="container">
       <div class="row for-notes"></div>
     </div>
     <div class="container-fluid">
       <div class="row my-5">
-        <div class="card-columns m-3"></div>
+        
       </div>
-    </div>
+    </div> -->
+    <div class="card-columns ml-auto w-25"></div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -186,12 +164,12 @@
     <script>
       var currentUser = "<%= user_id%>";
       var currentRoom = "<%= room_id%>";
-      var socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
-        params: { token: window.userToken },
-      });
-      // var socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+      // var socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
       //   params: { token: window.userToken },
       // });
+      var socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+        params: { token: window.userToken },
+      });
       socket.connect();
       var channel = socket.channel("room:" + currentRoom, {});
       channel.join().receive("ok", (resp) => {
@@ -227,7 +205,7 @@
       }
 
       function MenuSnippet(data) {
-        var menu = `<div class="dropdown">`;
+        var menu = `<div class="dropdown menu-section">`;
         menu += `<div data-toggle="dropdown" id="menu">`;
         menu += `<div class="dot"></div>`.repeat(3);
         menu += `</div><div class="dropdown-menu w-25 p-3" >`;
@@ -244,12 +222,12 @@
             data.bgcolor
           }" id="${data.id}" data-content='${JSON.stringify(data)}'>`;
           notes += MenuSnippet(data);
-          notes += `<div class="card-body"><img class="uploaded img-fluid" alt="" src="${data.image}" />`;
+          notes += `<div class="card-body pb-0"><img class="uploaded img-fluid" alt="" src="${data.image}" />`;
           notes += `<input type="text" class="border-0 p-2 title w-100 bg-transparent" placeholder="Title" autocomplete="off" value="${data.name}"/>`;
           notes += `<textarea class="border-0 p-2 notes w-100 bg-transparent" placeholder="Take a Note...">${data.notes}</textarea>`;
         } else {
           notes += `<div class="card shadow cstm-notes mx-auto my-3 white">`;
-          notes += `<div class="card-body"><img class="uploaded img-fluid" alt="" hidden />`;
+          notes += `<div class="card-body pb-0"><img class="uploaded img-fluid" alt="" hidden />`;
           notes += `<input type="text" class="border-0 p-2 title w-100 bg-transparent" placeholder="Title" autocomplete="off" />`;
           notes += `<textarea class="border-0 p-2 notes w-100 bg-transparent" placeholder="Take a Note..."></textarea>`;
         }
@@ -436,7 +414,7 @@
       });
 
       $(document).ready(function () {
-        $(".for-notes").append(CreatedNote());
+        $(".card-columns").append(CreatedNote());
       });
     </script>
   </body>
