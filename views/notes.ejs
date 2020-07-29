@@ -38,11 +38,11 @@
       .cstm-notes {
         border-radius: 10px;
       }
-      .btn:focus,
+      /* .btn:focus,
       .btn:active {
         outline: none !important;
         box-shadow: none;
-      }
+      } */
       /* .dropdown:hover > .dropdown-menu {
         display: block;
         margin: 0;
@@ -98,6 +98,7 @@
         position: absolute;
         top: 20px;
         right: 10px;
+        cursor: pointer;
       }
       #hoverColors {
         background: transparent;
@@ -110,6 +111,11 @@
         background: transparent;
         background-image: url("/icons/image.svg");
         padding: 5px;
+      }
+      .cancel,
+      .save,
+      .update {
+        border: 1px solid;
       }
     </style>
   </head>
@@ -246,11 +252,11 @@
         notes += `</div>`.repeat(2);
         notes += `<div><form class="upload-form"><input type="file" name="image" hidden /></form>`;
         notes += `<button class="rounded-circle cstm-btn image-btn"></button></div>`;
-        notes += `<div class="ml-auto"><button class="btn border-0 text-secondary cancel">Cancel</button>`;
+        notes += `<div class="ml-auto"><button class="btn  mx-1 text-secondary cancel">Cancel</button>`;
         if (data) {
-          notes += `<button class="btn border-0 text-secondary update">Save</button>`;
+          notes += `<button class="btn  mx-1 text-secondary update">Save</button>`;
         } else {
-          notes += `<button class="btn border-0 text-secondary save">Save</button>`;
+          notes += `<button class="btn  mx-1 text-secondary save">Save</button>`;
         }
         notes += `</div>`.repeat(4);
         return notes;
