@@ -280,93 +280,99 @@
       });
       $(document).on("click", ".save", function () {
         var parent_card = $(this).closest(".card");
-        var color_selected;
-        colors.forEach((element) => {
-          if ($(parent_card).hasClass(element.name.toLowerCase())) {
-            color_selected = element.name.toLowerCase();
-          }
-        });
+        var notes = $(parent_card).find(".notes").val();
+        if (notes.replace(/\s+/g, "").length > 0) {
+          var color_selected;
+          colors.forEach((element) => {
+            if ($(parent_card).hasClass(element.name.toLowerCase())) {
+              color_selected = element.name.toLowerCase();
+            }
+          });
 
-        if (
-          $(parent_card).find("input[type='file']")[0].files &&
-          $(parent_card).find("input[type='file']")[0].files[0]
-        ) {
-          $.ajax({
-            type: "POST",
-            url: "/upload",
-            enctype: "multipart/form-data",
-            data: new FormData($(parent_card).find(".upload-form")[0]),
-            processData: false,
-            contentType: false,
-            success: function (data) {
-              console.log(data);
-              channel.push("notes", {
-                name: $(parent_card).find(".title").val() || "Untitled",
-                notes: $(parent_card).find(".notes").val(),
-                created: currentUser,
-                room: currentRoom,
-                image: data.response_data.Location,
-                bgcolor: color_selected,
-              });
-            },
-          });
-        } else {
-          channel.push("notes", {
-            name: $(parent_card).find(".title").val(),
-            notes: $(parent_card).find(".notes").val(),
-            created: currentUser,
-            room: currentRoom,
-            bgcolor: color_selected,
-          });
+          if (
+            $(parent_card).find("input[type='file']")[0].files &&
+            $(parent_card).find("input[type='file']")[0].files[0]
+          ) {
+            $.ajax({
+              type: "POST",
+              url: "/upload",
+              enctype: "multipart/form-data",
+              data: new FormData($(parent_card).find(".upload-form")[0]),
+              processData: false,
+              contentType: false,
+              success: function (data) {
+                console.log(data);
+                channel.push("notes", {
+                  name: $(parent_card).find(".title").val() || "Untitled",
+                  notes: $(parent_card).find(".notes").val(),
+                  created: currentUser,
+                  room: currentRoom,
+                  image: data.response_data.Location,
+                  bgcolor: color_selected,
+                });
+              },
+            });
+          } else {
+            channel.push("notes", {
+              name: $(parent_card).find(".title").val(),
+              notes: notes,
+              created: currentUser,
+              room: currentRoom,
+              bgcolor: color_selected,
+            });
+          }
+          $(parent_card).replaceWith(CreatedNote());
         }
-        $(parent_card).replaceWith(CreatedNote());
       });
       $(document).on("click", ".update", function () {
         var parent_card = $(this).closest(".card");
         var card_data = JSON.parse($(parent_card).attr("data-content"));
-        var color_selected;
-        colors.forEach((element) => {
-          if ($(parent_card).hasClass(element.name.toLowerCase())) {
-            color_selected = element.name.toLowerCase();
-          }
-        });
-        if (
-          $(parent_card).find("input[type='file']")[0].files &&
-          $(parent_card).find("input[type='file']")[0].files[0]
-        ) {
-          $.ajax({
-            type: "POST",
-            url: "/upload",
-            enctype: "multipart/form-data",
-            data: new FormData($(parent_card).find(".upload-form")[0]),
-            processData: false,
-            contentType: false,
-            success: function (data) {
-              console.log(data);
+        var notes = $(parent_card).find(".notes").val();
+        if (notes.replace(/\s+/g, "").length > 0) {
+          var color_selected;
+          colors.forEach((element) => {
+            if ($(parent_card).hasClass(element.name.toLowerCase())) {
+              color_selected = element.name.toLowerCase();
+            }
+          });
+          if (
+            $(parent_card).find("input[type='file']")[0].files &&
+            $(parent_card).find("input[type='file']")[0].files[0]
+          ) {
+            $.ajax({
+              type: "POST",
+              url: "/upload",
+              enctype: "multipart/form-data",
+              data: new FormData($(parent_card).find(".upload-form")[0]),
+              processData: false,
+              contentType: false,
+              success: function (data) {
+                console.log(data);
 
-              channel.push("editnotes", {
-                name: $(parent_card).find(".title").val() || "Untitled",
-                notes: $(parent_card).find(".notes").val(),
-                updated: currentUser,
-                created: card_data.created,
-                room: currentRoom,
-                image: data.response_data.Location,
-                bgcolor: color_selected || data.bgcolor,
-                id: card_data.id,
-              });
-            },
-          });
-        } else {
-          channel.push("editnotes", {
-            name: $(parent_card).find(".title").val() || "Untitled",
-            notes: $(parent_card).find(".notes").val(),
-            updated: currentUser,
-            created: card_data.created,
-            room: currentRoom,
-            bgcolor: color_selected || data.bgcolor,
-            image: card_data.image,
-            id: card_data.id,
-          });
+                channel.push("editnotes", {
+                  name: $(parent_card).find(".title").val() || "Untitled",
+                  notes: $(parent_card).find(".notes").val(),
+                  updated: currentUser,
+                  created: card_data.created,
+                  room: currentRoom,
+                  image: data.response_data.Location,
+                  bgcolor: color_selected || data.bgcolor,
+                  id: card_data.id,
+                });
+              },
+            });
+          } else {
+            channel.push("editnotes", {
+              name: $(parent_card).find(".title").val() || "Untitled",
+              notes: $(parent_card).find(".notes").val(),
+              updated: currentUser,
+              created: card_data.created,
+              room: currentRoom,
+              bgcolor: color_selected || data.bgcolor,
+              image: card_data.image,
+              id: card_data.id,
+            });
+          }
         }
       });
       $(document).on("click", ".image-btn", function () {
