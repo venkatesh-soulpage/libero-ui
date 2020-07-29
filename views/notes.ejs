@@ -164,12 +164,12 @@
     <script>
       var currentUser = "<%= user_id%>";
       var currentRoom = "<%= room_id%>";
-      // var socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
-      //   params: { token: window.userToken },
-      // });
-      var socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+      var socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
         params: { token: window.userToken },
       });
+      // var socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+      //   params: { token: window.userToken },
+      // });
       socket.connect();
       var channel = socket.channel("room:" + currentRoom, {});
       channel.join().receive("ok", (resp) => {
