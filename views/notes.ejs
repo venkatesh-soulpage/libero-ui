@@ -218,7 +218,7 @@
       function CreatedNote(data) {
         var notes = "";
         if (data) {
-          notes += `<div class="card shadow cstm-notes my-3 ${
+          notes += `<div class="card shadow cstm-notes my-1 ${
             data.bgcolor
           }" id="${data.id}" data-content='${JSON.stringify(data)}'>`;
           notes += MenuSnippet(data);
@@ -226,7 +226,7 @@
           notes += `<input type="text" class="border-0 p-2 title w-100 bg-transparent" placeholder="Title" autocomplete="off" value="${data.name}"/>`;
           notes += `<textarea class="border-0 p-2 notes w-100 bg-transparent" placeholder="Take a Note...">${data.notes}</textarea>`;
         } else {
-          notes += `<div class="card shadow cstm-notes mx-auto my-3 white">`;
+          notes += `<div class="card shadow cstm-notes mx-auto my-2 white">`;
           notes += `<div class="card-body pb-0"><img class="uploaded img-fluid" alt="" hidden />`;
           notes += `<input type="text" class="border-0 p-2 title w-100 bg-transparent" placeholder="Title" autocomplete="off" />`;
           notes += `<textarea class="border-0 p-2 notes w-100 bg-transparent" placeholder="Take a Note..."></textarea>`;
