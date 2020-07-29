@@ -72,11 +72,10 @@
         background-color: #aecbfa !important;
       }
       .dot {
-        width: 3px;
-        height: 3px;
-        margin: 5px;
-        background: #000;
-        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        background-image: url("/icons/menu.svg");
+        background-repeat: no-repeat;
       }
       /* .card-footer {
         display: none;
@@ -96,8 +95,8 @@
       }
       .menu-section {
         position: absolute;
-        top: 20px;
-        right: 10px;
+        top: 15px;
+        right: 3px;
         cursor: pointer;
       }
       #hoverColors {
@@ -110,6 +109,9 @@
         border: 0;
         background: transparent;
         background-image: url("/icons/image.svg");
+        padding: 5px;
+      }
+      .uploaded {
         padding: 5px;
       }
       .cancel,
@@ -213,7 +215,7 @@
       function MenuSnippet(data) {
         var menu = `<div class="dropdown menu-section">`;
         menu += `<div data-toggle="dropdown" id="menu">`;
-        menu += `<div class="dot"></div>`.repeat(3);
+        menu += `<div class="dot"></div>`;
         menu += `</div><div class="dropdown-menu w-25 p-3" >`;
         menu += `<a class="dropdown-item copy" data-content="${data.id}">Make a copy</a>`;
         menu += `<a class="dropdown-item delete" data-content="${data.id}">Delete</a>`;
