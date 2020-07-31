@@ -8,6 +8,7 @@
   var lineWidthPicked;
   var SelectedFontFamily;
   var SelectedFontSize;
+  var bg_color;
   let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
     params: { token: window.userToken },
   });
@@ -88,8 +89,18 @@
           colorPicked = $("#colour-picker").val();
           $(".color-click").css("background-color", colorPicked);
           $("#colour-picker").change(function () {
+            if(bg_color){
+              channel.push("background_color", {
+                room: room,
+                name: "background_color",
+                data: {
+                  color: $("#colour-picker").val()
+                },
+              });
+            }else{
             colorPicked = $("#colour-picker").val();
             $(".color-click").css("background-color", colorPicked);
+            }
           });
 
           //Choose line Width
@@ -123,6 +134,9 @@
             if (tools[pick.value]) {
               tool = new tools[pick.value]();
             }
+            if(pick.value != 'bgcolor'){
+              bg_color = false;
+           }
           }
 
           $("#pencil-button").click(function () {
@@ -148,6 +162,11 @@
 
           $("#text-button").click(function () {
             pic_tool_click(this);
+          });
+
+          $("#bg_color").click(function () {
+            pic_tool_click(this);
+            bg_color = true;
           });
 
           //Draw Grids
@@ -418,6 +437,11 @@
         }
 
         channel.on("rectangle", onDrawRect);
+
+        function backgroundColor(data){ 
+          $("#imageView").css("background-color",data.color)
+        }
+        channel.on("background_color", backgroundColor);
 
         // The rectangle tool.
         tools.rect = function () {
