@@ -124,6 +124,27 @@
             SelectedFontSize = $("#draw-text-font-size").val();
           });
 
+          channel.on("mousemove", addMouse);
+          function addMouse(data) {
+            if ($(`.for-board`).children(`#${data.user}`).length > 0) {
+              $(`#${data.user}`).offset(data.cpos);
+            } else {
+              var mouse_div = document.createElement("div");
+              var mouse_text = document.createElement("span");
+              var mouse_img = document.createElement("img");
+              mouse_img.src = "/icons/cursor.svg";
+              mouse_div.id = `${data.user}`;
+              mouse_text.innerText = data.user;
+              mouse_div.classList.add("mouse-text");
+
+              mouse_div.appendChild(mouse_img);
+              mouse_div.appendChild(mouse_text);
+
+              $(`.for-board`).append(mouse_div);
+              $(`#${data.user}`).offset(data.cpos);
+            }
+          }
+
           // Activate the default tool.
           if (tools[tool_default]) {
             tool = new tools[tool_default]();
@@ -233,6 +254,19 @@
               }
             };
           }
+
+          canvas.addEventListener(
+            "mousemove",
+            function (e) {
+              throttle(ev_canvas, 10);
+              var cpos = { top: e.clientY + 10, left: e.clientX + 10 };
+              // console.log(cpos, "canvas");
+              var user_id = $("#user-id").val();
+
+               channel.push("mousemove", { user: user_id, cpos: cpos });
+            },
+            false
+          );
 
           // Attach the mousedown, mousemove and mouseup event listeners.
           canvas.addEventListener("mousedown", ev_canvas, false);
