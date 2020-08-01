@@ -90,9 +90,6 @@
         display: block;
       }
 
-      .card-columns {
-        column-count: 1;
-      }
       .menu-section {
         position: absolute;
         top: 15px;
@@ -118,6 +115,52 @@
       .save,
       .update {
         border: 1px solid;
+        padding: 5px;
+      }
+      @media (max-width: 575px) {
+        .for-notes {
+          margin: 0px 1%;
+        }
+      }
+      @media (max-width: 575.98px) {
+        .card-columns {
+          column-count: 1;
+        }
+        .container .card {
+          width: 100%;
+        }
+      }
+      @media (min-width: 576px) and (max-width: 767.98px) {
+        .card-columns {
+          column-count: 1;
+        }
+        .container .card {
+          width: 100%;
+        }
+      }
+      @media (min-width: 768px) and (max-width: 991.98px) {
+        .card-columns {
+          column-count: 3;
+        }
+        .container .card {
+          width: 75%;
+        }
+      }
+      @media (min-width: 992px) and (max-width: 1199.98px) {
+        .card-columns {
+          column-count: 3;
+        }
+        .container .card {
+          width: 50%;
+        }
+      }
+      @media (min-width: 1200px) {
+        .card-columns {
+          column-count: 5;
+        }
+        .container .card {
+          width: 50%;
+        }
       }
     </style>
   </head>
@@ -145,15 +188,14 @@
       ></div>
     </nav>
 
-    <!-- <div class="container">
+    <div class="container">
       <div class="row for-notes"></div>
     </div>
     <div class="container-fluid">
-      <div class="row my-5">
-        
+      <div class="row my-3">
+        <div class="card-columns m-3"></div>
       </div>
-    </div> -->
-    <div class="card-columns ml-auto w-25 mr-2"></div>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -428,7 +470,7 @@
       });
 
       $(document).ready(function () {
-        $(".card-columns").append(CreatedNote());
+        $(".for-notes").append(CreatedNote());
       });
     </script>
   </body>
