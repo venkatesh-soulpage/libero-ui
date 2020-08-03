@@ -54,12 +54,12 @@
     <script src="/js/phoenix.js"></script>
 
     <script type="text/javascript">
-      let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
+      // let socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
+      //   params: { token: window.userToken },
+      // });
+      let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
         params: { token: window.userToken },
       });
-      //   let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
-      //     params: { token: window.userToken },
-      //   });
       socket.connect();
 
       let room = "<%= room_id%>";
@@ -67,6 +67,7 @@
       let channel = socket.channel("room:" + room, {});
 
       channel.on("shout", function (payload) {
+        console.log(payload, "payload");
         // listen to the 'shout' event
         let li = document.createElement("li"); // create new list item DOM element
         // let name = payload.name || "guest"; // get name from payload or set default
