@@ -358,7 +358,7 @@
             });
           } else {
             channel.push("notes", {
-              name: $(parent_card).find(".title").val(),
+              name: $(parent_card).find(".title").val() || "Untitled",
               notes: notes,
               created: currentUser,
               room: currentRoom,
