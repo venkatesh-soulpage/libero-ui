@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Libero</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="icon" href="/icons/Logo (1).ico" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      .cstm-input:focus {
+        outline: none;
+        border: none;
+      }
+      .logo {
+        width: 150px;
+      }
+      .contactus {
+        color: #51ba65 !important;
+      }
+      .join {
+        background: linear-gradient(
+          122.55deg,
+          #51ba65 -13.67%,
+          #384da1 133.92%
+        );
+        color: #fff !important;
+      }
+      .enter-meet-code {
+        border-radius: 15px;
+        /* width: 30%; */
+        font-size: 20px;
+      }
+      .connect-btn {
+        background: #42788a;
+        border-radius: 15px;
+        color: #fff !important;
+        outline: none !important;
+        font-size: 22px;
+        width: 25% !important;
+      }
+      #cnct-boards,
+      #cnct-notes {
+        pointer-events: none;
+      }
+      .btn:focus,
+      .btn:active {
+        outline: none !important;
+        box-shadow: none;
+      }
+      /* responsive */
+      @media (min-width: 768px) and (max-width: 991px) {
+        .connect-btn {
+          font-size: 18px;
+        }
+      }
+      @media (min-width: 576px) and (max-width: 767px) {
+        .connect-btn {
+          font-size: 16px;
+          width: 28% !important;
+        }
+      }
+      @media (max-width: 575px) {
+        .connect-btn {
+          width: 90% !important;
+          padding: 13px 0px;
+        }
+        .enter-meet-code {
+          width: 90% !important;
+          font-size: 17px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-sm navbar-light bg-light border-bottom px-sm-5 px-4"
+    >
+      <a class="navbar-brand px-0 px-sm-5" href="#"
+        ><img class="img-fluid logo" src="/icons/logo.png"
+      /></a>
+      <button
+        class="navbar-toggler d-lg-none"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="collapse navbar-collapse justify-content-end ml-5 ml-sm-0"
+        id="collapsibleNavId"
+      >
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a
+              class="nav-link contactus pt-3"
+              href="https://libero.sh/#contactus"
+              target="_blank"
+              >Contact Us</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://join.libero.sh/#/" target="_blank"
+              ><button class="btn join px-4">Join</button></a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container h-75">
+      <div class="row h-100">
+        <div class="col my-auto">
+          <div class="card-columns d-flex justify-content-center">
+            <div class="card card-body border-0">
+              <div class="row d-flex justify-content-center my-3">
+                <div class="border d-flex my-3 enter-meet-code">
+                  <img src="/icons/keyboard.svg" alt="" class="m-3" />
+                  <input
+                    type="text"
+                    name=""
+                    id="boards-id"
+                    oninput="activateBtn('#cnct-boards')"
+                    class="border-0 p-2 cstm-input enter-meet-code"
+                    placeholder="Enter Meeting Code"
+                  />
+                </div>
+                <div
+                  class="connect-btn d-flex align-items-center my-3 justify-content-center mx-3"
+                  id="cnct-boards"
+                  onclick="getinput('#boards-id','boards')"
+                >
+                  Connect to Boards
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center my-3">
+                <div class="border d-flex my-3 enter-meet-code">
+                  <img src="/icons/keyboard.svg" alt="" class="m-3" />
+                  <input
+                    type="text"
+                    name=""
+                    id="notes-id"
+                    oninput="activateBtn('#cnct-notes')"
+                    class="border-0 p-2 cstm-input enter-meet-code"
+                    placeholder="Enter Meeting Code"
+                  />
+                </div>
+                <div
+                  class="connect-btn d-flex align-items-center my-3 justify-content-center mx-3"
+                  id="cnct-notes"
+                  onclick="getinput('#notes-id','notes')"
+                >
+                  Connect to Notes
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      function getinput(element_id, path) {
+        if ($(element_id).val() != "") {
+          var url =
+            window.location.protocol +
+            "//" +
+            window.location.hostname +
+            (window.location.port ? ":" + window.location.port : "") +
+            "/" +
+            path +
+            "/" +
+            $(element_id).val();
+          window.open(url, "_blank");
+        }
+      }
+      function activateBtn(element_id) {
+        $(element_id).css({ "pointer-events": "auto", cursor: "pointer" });
+      }
+    </script>
+  </body>
+</html>

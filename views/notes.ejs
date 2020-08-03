@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Notes</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background-color: #dddddd;
+      }
+      .cstm-btn {
+        width: 25px;
+        height: 25px;
+        padding: 0px;
+        display: inline-block;
+      }
+      textarea:focus,
+      input:focus {
+        outline: none;
+      }
+      textarea {
+        overflow: hidden;
+        resize: none;
+        display: block;
+      }
+      .cstm-notes {
+        border-radius: 10px;
+      }
+      /* .btn:focus,
+      .btn:active {
+        outline: none !important;
+        box-shadow: none;
+      } */
+      /* .dropdown:hover > .dropdown-menu {
+        display: block;
+        margin: 0;
+      } */
+      .default {
+        background-color: #fff !important;
+      }
+      .red {
+        background-color: #f28b82 !important;
+      }
+      .orange {
+        background-color: #fbbc04 !important;
+      }
+      .yellow {
+        background-color: #fff475 !important;
+      }
+      .green {
+        background-color: #ccff90 !important;
+      }
+      .teal {
+        background-color: #a7ffeb !important;
+      }
+      .purple {
+        background-color: #d7aefb !important;
+      }
+      .darkblue {
+        background-color: #aecbfa !important;
+      }
+      .dot {
+        width: 20px;
+        height: 20px;
+        background-image: url("/icons/menu.svg");
+        background-repeat: no-repeat;
+      }
+      /* .card-footer {
+        display: none;
+      }
+      .card:hover > .card-footer {
+        display: block;
+      } */
+      .card-footer:only-child {
+        display: none;
+      }
+      .card:hover > .card-footer {
+        display: block;
+      }
+
+      .menu-section {
+        position: absolute;
+        top: 15px;
+        right: 3px;
+        cursor: pointer;
+      }
+      #hoverColors {
+        background: transparent;
+        background-image: url("/icons/bgcolor.svg");
+        border: 0;
+        padding: 5px;
+      }
+      .image-btn {
+        border: 0;
+        background: transparent;
+        background-image: url("/icons/image.svg");
+        padding: 5px;
+      }
+      .uploaded {
+        padding: 5px;
+      }
+      .cancel,
+      .save,
+      .update {
+        border: 1px solid;
+        padding: 5px;
+      }
+      @media (max-width: 575px) {
+        .for-notes {
+          margin: 0px 1%;
+        }
+      }
+      @media (max-width: 575.98px) {
+        .card-columns {
+          column-count: 1;
+        }
+        .container .card {
+          width: 100%;
+        }
+      }
+      @media (min-width: 576px) and (max-width: 767.98px) {
+        .card-columns {
+          column-count: 1;
+        }
+        .container .card {
+          width: 100%;
+        }
+      }
+      @media (min-width: 768px) and (max-width: 991.98px) {
+        .card-columns {
+          column-count: 3;
+        }
+        .container .card {
+          width: 75%;
+        }
+      }
+      @media (min-width: 992px) and (max-width: 1199.98px) {
+        .card-columns {
+          column-count: 3;
+        }
+        .container .card {
+          width: 50%;
+        }
+      }
+      @media (min-width: 1200px) {
+        .card-columns {
+          column-count: 5;
+        }
+        .container .card {
+          width: 50%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-sm navbar-light bg-light border-bottom px-sm-5 px-4"
+    >
+      <a class="navbar-brand px-0 px-sm-5" href="#"
+        ><img class="img-fluid logo" src="/icons/notes_logo.svg"
+      /></a>
+      <button
+        class="navbar-toggler d-lg-none"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="collapse navbar-collapse justify-content-end ml-5 ml-sm-0"
+        id="collapsibleNavId"
+      ></div>
+    </nav>
+
+    <div class="container">
+      <div class="row for-notes"></div>
+    </div>
+    <div class="container-fluid">
+      <div class="row my-3">
+        <div class="card-columns m-3"></div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/phoenix.js"></script>
+    <script>
+      var currentUser = "<%= user_id%>";
+      var currentRoom = "<%= room_id%>";
+      var socket = new Phoenix.Socket("wss://sphxchat.herokuapp.com/socket", {
+        params: { token: window.userToken },
+      });
+      // var socket = new Phoenix.Socket("ws://localhost:4000/socket", {
+      //   params: { token: window.userToken },
+      // });
+      socket.connect();
+      var channel = socket.channel("room:" + currentRoom, {});
+      channel.join().receive("ok", (resp) => {
+        console.log("Joined successfully", resp);
+      });
+
+      channel.on("notes", function (data) {
+        $(".card-columns").append(CreatedNote(data));
+        AutoSize($(`#${data.id}`).find(".notes")[0]);
+      });
+      channel.on("editnotes", function (data) {
+        $(`#${data.id}`).replaceWith(CreatedNote(data));
+        AutoSize($(`#${data.id}`).find(".notes")[0]);
+      });
+      channel.on("deletenotes", function (data) {
+        $(`#${data.id}`).remove();
+      });
+      var colors = [
+        { name: "White", code: "#fff" },
+        { name: "Red", code: "#f28b82" },
+        { name: "Orange", code: "#fbbc04" },
+        { name: "Yellow", code: "#fff475" },
+        { name: "Green", code: "#ccff90" },
+        { name: "Teal", code: "#a7ffeb" },
+        { name: "Purple", code: "#d7aefb" },
+        { name: "DarkBlue", code: "#aecbfa" },
+      ];
+      function AutoSize(element) {
+        setTimeout(function () {
+          element.style.cssText = "height:auto; padding:0";
+          element.style.cssText = "height:" + element.scrollHeight + "px";
+        }, 0);
+      }
+
+      function MenuSnippet(data) {
+        var menu = `<div class="dropdown menu-section">`;
+        menu += `<div data-toggle="dropdown" id="menu">`;
+        menu += `<div class="dot"></div>`;
+        menu += `</div><div class="dropdown-menu w-25 p-3" >`;
+        menu += `<a class="dropdown-item copy" data-content="${data.id}">Make a copy</a>`;
+        menu += `<a class="dropdown-item delete" data-content="${data.id}">Delete</a>`;
+        menu += `</div>`.repeat(2);
+        return menu;
+      }
+
+      function CreatedNote(data) {
+        var notes = "";
+        if (data) {
+          notes += `<div class="card shadow cstm-notes my-1 ${
+            data.bgcolor
+          }" id="${data.id}" data-content='${JSON.stringify(data)}'>`;
+          notes += MenuSnippet(data);
+          notes += `<div class="card-body pb-0"><img class="uploaded img-fluid" alt="" src="${data.image}" />`;
+          notes += `<input type="text" class="border-0 p-2 title w-100 bg-transparent" placeholder="Title" autocomplete="off" value="${data.name}"/>`;
+          notes += `<textarea class="border-0 p-2 notes w-100 bg-transparent" placeholder="Take a Note...">${data.notes}</textarea>`;
+        } else {
+          notes += `<div class="card shadow cstm-notes mx-auto my-2 white">`;
+          notes += `<div class="card-body pb-0"><img class="uploaded img-fluid" alt="" hidden />`;
+          notes += `<input type="text" class="border-0 p-2 title w-100 bg-transparent" placeholder="Title" autocomplete="off" />`;
+          notes += `<textarea class="border-0 p-2 notes w-100 bg-transparent" placeholder="Take a Note..."></textarea>`;
+        }
+
+        notes += `</div><div class="card-footer bg-transparent border-0">`;
+        notes += `<div class="d-flex align-items-center"><div class="dropdown">`;
+        notes += `<button class="rounded-circle cstm-btn" id="hoverColors" data-toggle="dropdown"></button>`;
+        notes += `<div class="dropdown-menu w-25 p-3">`;
+        colors.forEach((element) => {
+          notes += `<button value="${
+            element.code
+          }" class="rounded-circle cstm-btn dropdown-item ${element.name.toLowerCase()}" title="${
+            element.name
+          }"></button>`;
+        });
+        notes += `</div>`.repeat(2);
+        notes += `<div><form class="upload-form"><input type="file" name="image" hidden /></form>`;
+        notes += `<button class="rounded-circle cstm-btn image-btn"></button></div>`;
+        notes += `<div class="ml-auto"><button class="btn  mx-1 text-secondary cancel">Cancel</button>`;
+        if (data) {
+          notes += `<button class="btn  mx-1 text-secondary update">Save</button>`;
+        } else {
+          notes += `<button class="btn  mx-1 text-secondary save">Save</button>`;
+        }
+        notes += `</div>`.repeat(4);
+        return notes;
+      }
+
+      $(document).on("keydown", ".notes", function () {
+        AutoSize(this);
+      });
+
+      $(document).on("click", ".cancel", function () {
+        var parent_card = $(this).closest(".card");
+        if (!$(parent_card).attr("id")) {
+          $(parent_card).find(".title").val("");
+          $(parent_card).find(".notes").val("");
+          AutoSize($(parent_card).find(".notes")[0]);
+        } else {
+          var data = JSON.parse($(parent_card).attr("data-content"));
+          $(parent_card).replaceWith(CreatedNote(data));
+          AutoSize($(parent_card).find(".notes")[0]);
+        }
+      });
+      $(document).on("click", ".save", function () {
+        var parent_card = $(this).closest(".card");
+        var notes = $(parent_card).find(".notes").val();
+        if (notes.replace(/\s+/g, "").length > 0) {
+          var color_selected;
+          colors.forEach((element) => {
+            if ($(parent_card).hasClass(element.name.toLowerCase())) {
+              color_selected = element.name.toLowerCase();
+            }
+          });
+
+          if (
+            $(parent_card).find("input[type='file']")[0].files &&
+            $(parent_card).find("input[type='file']")[0].files[0]
+          ) {
+            $.ajax({
+              type: "POST",
+              url: "/upload",
+              enctype: "multipart/form-data",
+              data: new FormData($(parent_card).find(".upload-form")[0]),
+              processData: false,
+              contentType: false,
+              success: function (data) {
+                console.log(data);
+                channel.push("notes", {
+                  name: $(parent_card).find(".title").val() || "Untitled",
+                  notes: $(parent_card).find(".notes").val(),
+                  created: currentUser,
+                  room: currentRoom,
+                  image: data.response_data.Location,
+                  bgcolor: color_selected,
+                });
+              },
+            });
+          } else {
+            channel.push("notes", {
+              name: $(parent_card).find(".title").val() || "Untitled",
+              notes: notes,
+              created: currentUser,
+              room: currentRoom,
+              bgcolor: color_selected,
+            });
+          }
+          $(parent_card).replaceWith(CreatedNote());
+        }
+      });
+      $(document).on("click", ".update", function () {
+        var parent_card = $(this).closest(".card");
+        var card_data = JSON.parse($(parent_card).attr("data-content"));
+        var notes = $(parent_card).find(".notes").val();
+        if (notes.replace(/\s+/g, "").length > 0) {
+          var color_selected;
+          colors.forEach((element) => {
+            if ($(parent_card).hasClass(element.name.toLowerCase())) {
+              color_selected = element.name.toLowerCase();
+            }
+          });
+          if (
+            $(parent_card).find("input[type='file']")[0].files &&
+            $(parent_card).find("input[type='file']")[0].files[0]
+          ) {
+            $.ajax({
+              type: "POST",
+              url: "/upload",
+              enctype: "multipart/form-data",
+              data: new FormData($(parent_card).find(".upload-form")[0]),
+              processData: false,
+              contentType: false,
+              success: function (data) {
+                console.log(data);
+
+                channel.push("editnotes", {
+                  name: $(parent_card).find(".title").val() || "Untitled",
+                  notes: $(parent_card).find(".notes").val(),
+                  updated: currentUser,
+                  created: card_data.created,
+                  room: currentRoom,
+                  image: data.response_data.Location,
+                  bgcolor: color_selected || data.bgcolor,
+                  id: card_data.id,
+                });
+              },
+            });
+          } else {
+            channel.push("editnotes", {
+              name: $(parent_card).find(".title").val() || "Untitled",
+              notes: $(parent_card).find(".notes").val(),
+              updated: currentUser,
+              created: card_data.created,
+              room: currentRoom,
+              bgcolor: color_selected || data.bgcolor,
+              image: card_data.image,
+              id: card_data.id,
+            });
+          }
+        }
+      });
+      $(document).on("click", ".image-btn", function () {
+        var parent_card = $(this).closest(".card");
+        $(parent_card).find("input[type='file']").click();
+      });
+      $(document).on("change", "input[type='file']", function () {
+        var parent_card = $(this).closest(".card");
+        if (this.files && this.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            $(parent_card)
+              .find(".uploaded")
+              .removeAttr("hidden")
+              .attr("src", e.target.result);
+          };
+
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+
+      $(document).on("click", ".dropdown-item", function () {
+        var parent_card = $(this).closest(".card");
+        if ($(this).is("[data-content]")) {
+          var id = parseInt($(this).attr("data-content"));
+          if ($(this).hasClass("copy")) {
+            var duplicate_data = JSON.parse($(`#${id}`).attr("data-content"));
+
+            channel.push("notes", {
+              bgcolor: duplicate_data.bgcolor,
+              created: currentUser,
+              room: duplicate_data.room,
+              notes: duplicate_data.notes,
+              name: duplicate_data.name,
+              image: duplicate_data.image,
+            });
+          } else if ($(this).hasClass("delete")) {
+            channel.push("deletenotes", {
+              id: id,
+            });
+          }
+        } else {
+          colors.forEach((element) => {
+            if ($(parent_card).hasClass(element.name.toLowerCase())) {
+              $(parent_card).removeClass(element.name.toLowerCase());
+            }
+          });
+          $(parent_card).addClass($(this).attr("title").toLowerCase());
+        }
+      });
+
+      $(document).ready(function () {
+        $(".for-notes").append(CreatedNote());
+      });
+    </script>
+  </body>
+</html>
