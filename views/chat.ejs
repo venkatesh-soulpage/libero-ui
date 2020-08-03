@@ -63,6 +63,7 @@
       socket.connect();
 
       let room = "<%= room_id%>";
+      var currentUser = "<%= user_id%>";
       let channel = socket.channel("room:" + room, {});
 
       channel.on("shout", function (payload) {
@@ -70,7 +71,13 @@
         let li = document.createElement("li"); // create new list item DOM element
         // let name = payload.name || "guest"; // get name from payload or set default
         // li.innerHTML = "<b>" + name + "</b>: " + payload.message; // set li contents
-        li.innerHTML = "<b>" + payload.message; // set li contents
+        li.innerHTML =
+          "<b>" +
+          payload.user +
+          ":" +
+          payload.message +
+          "created:" +
+          payload.inserted_at; // set li contents
         ul.appendChild(li); // append to list
       });
 
@@ -91,6 +98,7 @@
             // name: name.value, // get value of "name" of person sending the message
             message: msg.value, // get message text (value) from msg input field.
             room: room,
+            user: currentUser,
           });
           msg.value = ""; // reset the message input field for next message.
         }

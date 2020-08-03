@@ -36,8 +36,11 @@ app.get("/(:room_id)?", (req, res) => {
   res.render("index");
 });
 
-app.get("/chat/:room_id", (req, res) => {
-  res.render("chat", { room_id: req.params.room_id });
+app.get("/chat/:room_id/(:user_id)?", (req, res) => {
+  res.render("chat", {
+    room_id: req.params.room_id,
+    user_id: req.params.user_id,
+  });
 });
 
 app.get("/boards/:room_id/(:user_id)?", (req, res) => {
