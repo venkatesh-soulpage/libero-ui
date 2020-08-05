@@ -123,6 +123,10 @@
           $("#draw-text-font-size").change(function () {
             SelectedFontSize = $("#draw-text-font-size").val();
           });
+          function colorGen() {
+            var generateColor = Math.floor(Math.random() * 256);
+            return generateColor;
+          }
 
           channel.on("mousemove", addMouse);
           function addMouse(data) {
@@ -136,6 +140,10 @@
               mouse_div.id = `${data.user}`;
               mouse_text.innerText = data.user;
               mouse_div.classList.add("mouse-text");
+
+              var rgbColor =
+                "rgb(" + colorGen() + "," + colorGen() + "," + colorGen() + ")";
+              mouse_text.style.color = rgbColor;
 
               // mouse_div.appendChild(mouse_img);
               mouse_div.appendChild(mouse_text);
