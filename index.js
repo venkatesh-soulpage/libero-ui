@@ -5,6 +5,8 @@ var app = express();
 var path = require("path");
 var bodyParser = require("body-parser");
 var http = require("http").createServer(app);
+socketIo = require("socket.io");
+var io = socketIo.listen(http);
 app.use(express.static(path.join(__dirname, "public")));
 
 const fileUpload = require("express-fileupload");
@@ -75,6 +77,12 @@ app.post("/upload", (req, res) => {
       response_message: "Success",
       response_data: data,
     });
+  });
+});
+
+io.on("connection", function (socket) {
+  socket.on("mousemove", function (data) {
+    io.emit("mousemove", data);
   });
 });
 

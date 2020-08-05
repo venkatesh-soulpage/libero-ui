@@ -16,10 +16,9 @@
   // let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
   //   params: { token: window.userToken },
   // });
-
+  var node_scoket = io.connect();
   socket.connect();
   let room = $("#room-id").val();
-  console.log(room);
   let channel = socket.channel("room:" + room, {});
 
   channel.join().receive("ok", (resp) => {
@@ -36,6 +35,8 @@
         // The active tool instance.
         var tool;
         var tool_default = "pencil";
+        var user_id =
+          $("#user-id").val() || `user${Math.floor(Math.random() * 100)}`;
 
         function init() {
           // Find the canvas element.
@@ -89,17 +90,17 @@
           colorPicked = $("#colour-picker").val();
           $(".color-click").css("background-color", colorPicked);
           $("#colour-picker").change(function () {
-            if(bg_color){
+            if (bg_color) {
               channel.push("background_color", {
                 room: room,
                 name: "background_color",
                 data: {
-                  color: $("#colour-picker").val()
+                  color: $("#colour-picker").val(),
                 },
               });
-            }else{
-            colorPicked = $("#colour-picker").val();
-            $(".color-click").css("background-color", colorPicked);
+            } else {
+              colorPicked = $("#colour-picker").val();
+              $(".color-click").css("background-color", colorPicked);
             }
           });
 
@@ -124,7 +125,7 @@
             SelectedFontSize = $("#draw-text-font-size").val();
           });
 
-          channel.on("mousemove", addMouse);
+          node_scoket.on("mousemove", addMouse);
           function addMouse(data) {
             if ($(`.for-board`).children(`#${data.user}`).length > 0) {
               $(`#${data.user}`).offset(data.cpos);
@@ -155,9 +156,9 @@
             if (tools[pick.value]) {
               tool = new tools[pick.value]();
             }
-            if(pick.value != 'bgcolor'){
+            if (pick.value != "bgcolor") {
               bg_color = false;
-           }
+            }
           }
 
           $("#pencil-button").click(function () {
@@ -261,9 +262,8 @@
               throttle(ev_canvas, 10);
               var cpos = { top: e.clientY + 10, left: e.clientX + 10 };
               // console.log(cpos, "canvas");
-              var user_id = $("#user-id").val();
 
-               channel.push("mousemove", { user: user_id, cpos: cpos });
+              node_scoket.emit("mousemove", { user: user_id, cpos: cpos });
             },
             false
           );
@@ -271,7 +271,7 @@
           // Attach the mousedown, mousemove and mouseup event listeners.
           canvas.addEventListener("mousedown", ev_canvas, false);
           //canvas.addEventListener('mousemove', ev_canvas, false);
-          canvas.addEventListener("mousemove", throttle(ev_canvas, 10), false);
+          // canvas.addEventListener("mousemove", throttle(ev_canvas, 10), false);
           canvas.addEventListener("mouseup", ev_canvas, false);
         }
 
@@ -472,8 +472,8 @@
 
         channel.on("rectangle", onDrawRect);
 
-        function backgroundColor(data){ 
-          $("#imageView").css("background-color",data.color)
+        function backgroundColor(data) {
+          $("#imageView").css("background-color", data.color);
         }
         channel.on("background_color", backgroundColor);
 

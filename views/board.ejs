@@ -18,6 +18,7 @@
     <style>
       #container {
         position: relative;
+        padding: 5px;
       }
       #imageTemp {
         position: absolute;
@@ -30,7 +31,7 @@
       }
       canvas {
         border-radius: 5px;
-        cursor: auto;
+        cursor: none;
       }
       #text_tool {
         position: absolute;
@@ -56,6 +57,8 @@
       .mouse-text {
         z-index: 10;
         position: fixed;
+        font-size: smaller;
+        pointer-events: none;
       }
       @media (min-width: 576px) and (max-width: 767px) {
         .for-board {
@@ -171,11 +174,21 @@
               <span class="d-block mt-2">Clear All</span>
             </button>
             <div class="bg_color_div btn-div my-auto cstm-font">
-              <button class="btn btn-sm border-0 bg-transparent bg_color" id="bg_color" value="bgcolor">
-                <img src="/icons/fill-color.png" width="23px" height="23px" alt="bg" class="d-block mx-auto" />
+              <button
+                class="btn btn-sm border-0 bg-transparent bg_color"
+                id="bg_color"
+                value="bgcolor"
+              >
+                <img
+                  src="/icons/fill-color.png"
+                  width="23px"
+                  height="23px"
+                  alt="bg"
+                  class="d-block mx-auto"
+                />
                 <span class="d-block mt-2">bg color</span>
               </button>
-              </div>
+            </div>
             <span class="my-auto cstm-font">
               <button
                 class="btn rounded-circle color-click"
@@ -184,7 +197,7 @@
               <input type="color" name="" id="colour-picker" hidden />
               <span class="d-block for-color mt-1">Color</span>
             </span>
-            
+
             <span class="my-auto text-center cstm-font"
               ><input
                 type="number"
@@ -214,7 +227,7 @@
       </div>
       <div class="row p-3 d-flex justify-content-center">
         <div id="container" class="">
-          <canvas id="imageView"> </canvas>
+          <canvas id="imageView" class="board"> </canvas>
         </div>
       </div>
     </div>
@@ -236,6 +249,8 @@
       crossorigin="anonymous"
     ></script>
     <script src="/js/phoenix.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
     <script src="/js/canvas.js"></script>
     <script type="text/javascript">
       $(document).ready(function () {
