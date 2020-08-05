@@ -152,12 +152,15 @@
           }
 
           function pic_tool_click(pick) {
+            console.log(pick);
             if (tools[pick.value]) {
               tool = new tools[pick.value]();
             }
             if (pick.value != "bgcolor") {
               bg_color = false;
             }
+            $(".buttons").find(".bg-white").removeClass("bg-white");
+            $(`#${pick.id}`).addClass("bg-white");
           }
 
           $("#pencil-button").click(function () {
