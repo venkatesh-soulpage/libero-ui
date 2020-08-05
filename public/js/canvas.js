@@ -89,17 +89,17 @@
           colorPicked = $("#colour-picker").val();
           $(".color-click").css("background-color", colorPicked);
           $("#colour-picker").change(function () {
-            if(bg_color){
+            if (bg_color) {
               channel.push("background_color", {
                 room: room,
                 name: "background_color",
                 data: {
-                  color: $("#colour-picker").val()
+                  color: $("#colour-picker").val(),
                 },
               });
-            }else{
-            colorPicked = $("#colour-picker").val();
-            $(".color-click").css("background-color", colorPicked);
+            } else {
+              colorPicked = $("#colour-picker").val();
+              $(".color-click").css("background-color", colorPicked);
             }
           });
 
@@ -131,13 +131,13 @@
             } else {
               var mouse_div = document.createElement("div");
               var mouse_text = document.createElement("span");
-              var mouse_img = document.createElement("img");
-              mouse_img.src = "/icons/cursor.svg";
+              // var mouse_img = document.createElement("img");
+              // mouse_img.src = "/icons/cursor.svg";
               mouse_div.id = `${data.user}`;
               mouse_text.innerText = data.user;
               mouse_div.classList.add("mouse-text");
 
-              mouse_div.appendChild(mouse_img);
+              // mouse_div.appendChild(mouse_img);
               mouse_div.appendChild(mouse_text);
 
               $(`.for-board`).append(mouse_div);
@@ -155,9 +155,9 @@
             if (tools[pick.value]) {
               tool = new tools[pick.value]();
             }
-            if(pick.value != 'bgcolor'){
+            if (pick.value != "bgcolor") {
               bg_color = false;
-           }
+            }
           }
 
           $("#pencil-button").click(function () {
@@ -263,7 +263,7 @@
               // console.log(cpos, "canvas");
               var user_id = $("#user-id").val();
 
-               channel.push("mousemove", { user: user_id, cpos: cpos });
+              channel.push("mousemove", { user: user_id, cpos: cpos });
             },
             false
           );
@@ -472,8 +472,8 @@
 
         channel.on("rectangle", onDrawRect);
 
-        function backgroundColor(data){ 
-          $("#imageView").css("background-color",data.color)
+        function backgroundColor(data) {
+          $("#imageView").css("background-color", data.color);
         }
         channel.on("background_color", backgroundColor);
 
