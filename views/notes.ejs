@@ -117,6 +117,13 @@
         border: 1px solid;
         padding: 5px;
       }
+      .cstm-close {
+        position: absolute;
+        left: 5px;
+        top: 20px;
+        font-size: 25px;
+        border: 2px solid !important;
+      }
       @media (max-width: 575px) {
         .for-notes {
           margin: 0px 1%;
@@ -277,7 +284,9 @@
           notes += `<textarea class="border-0 p-2 notes w-100 bg-transparent" placeholder="Take a Note...">${data.notes}</textarea>`;
         } else {
           notes += `<div class="card shadow cstm-notes mx-auto my-2 white">`;
-          notes += `<div class="card-body pb-0"><img class="uploaded img-fluid" alt="" hidden />`;
+          notes += `<div class="card-body pb-0">`;
+          notes += `<button type="button" class="close d-none cstm-close" aria-label="Close"><span aria-hidden="true">&times;</span></button>`;
+          notes += `<img class="uploaded img-fluid" alt="" hidden />`;
           notes += `<input type="text" class="border-0 p-2 title w-100 bg-transparent" placeholder="Title" autocomplete="off" />`;
           notes += `<textarea class="border-0 p-2 notes w-100 bg-transparent" placeholder="Take a Note..."></textarea>`;
         }
@@ -436,7 +445,18 @@
           };
 
           reader.readAsDataURL(this.files[0]);
+          $(".cstm-close").removeClass("d-none");
         }
+      });
+
+      $(document).on("click", ".cstm-close", function () {
+        var parent_card = $(this).closest(".card");
+        $(parent_card).find("input[type='file']").val("");
+        $(parent_card)
+          .find(".uploaded")
+          .removeAttr("src")
+          .attr("hidden", "hidden");
+        $(".cstm-close").addClass("d-none");
       });
 
       $(document).on("click", ".dropdown-item", function () {
