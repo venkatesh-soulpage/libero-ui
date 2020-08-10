@@ -5,8 +5,7 @@ var app = express();
 var path = require("path");
 var bodyParser = require("body-parser");
 var http = require("http").createServer(app);
-socketIo = require("socket.io");
-var io = socketIo.listen(http);
+
 app.use(express.static(path.join(__dirname, "public")));
 
 const fileUpload = require("express-fileupload");
@@ -45,14 +44,14 @@ app.get("/chat/:room_id/(:user_id)?", (req, res) => {
   });
 });
 
-app.get("/boards/:room_id", (req, res) => {
+app.get("/boards/:room_id/(:user_id)?", (req, res) => {
   res.render("board", {
     room_id: req.params.room_id,
     user_id: req.params.user_id,
   });
 });
 
-app.get("/notes/:room_id", (req, res) => {
+app.get("/notes/:room_id/(:user_id)?", (req, res) => {
   res.render("notes", {
     room_id: req.params.room_id,
     user_id: req.params.user_id,
@@ -77,12 +76,6 @@ app.post("/upload", (req, res) => {
       response_message: "Success",
       response_data: data,
     });
-  });
-});
-
-io.on("connection", function (socket) {
-  socket.on("mousemove", function (data) {
-    io.emit("mousemove", data);
   });
 });
 

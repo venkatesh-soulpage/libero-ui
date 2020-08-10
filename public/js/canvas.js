@@ -16,7 +16,7 @@
   // let socket = new Phoenix.Socket("ws://localhost:4000/socket", {
   //   params: { token: window.userToken },
   // });
-  var node_scoket = io.connect();
+
   socket.connect();
   let room = $("#room-id").val();
   let channel = socket.channel("room:" + room, {});
@@ -129,7 +129,7 @@
             return generateColor;
           }
 
-          node_scoket.on("mousemove", addMouse);
+          channel.on("mousemove", addMouse);
           function addMouse(data) {
             if ($(`.for-board`).children(`#${data.user}`).length > 0) {
               $(`#${data.user}`).offset(data.cpos);
