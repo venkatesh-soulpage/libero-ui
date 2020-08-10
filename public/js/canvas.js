@@ -124,6 +124,10 @@
           $("#draw-text-font-size").change(function () {
             SelectedFontSize = $("#draw-text-font-size").val();
           });
+          function colorGen() {
+            var generateColor = Math.floor(Math.random() * 256);
+            return generateColor;
+          }
 
           node_scoket.on("mousemove", addMouse);
           function addMouse(data) {
@@ -132,13 +136,17 @@
             } else {
               var mouse_div = document.createElement("div");
               var mouse_text = document.createElement("span");
-              var mouse_img = document.createElement("img");
-              mouse_img.src = "/icons/cursor.svg";
+              // var mouse_img = document.createElement("img");
+              // mouse_img.src = "/icons/cursor.svg";
               mouse_div.id = `${data.user}`;
               mouse_text.innerText = data.user;
               mouse_div.classList.add("mouse-text");
 
-              mouse_div.appendChild(mouse_img);
+              var rgbColor =
+                "rgb(" + colorGen() + "," + colorGen() + "," + colorGen() + ")";
+              mouse_text.style.color = rgbColor;
+
+              // mouse_div.appendChild(mouse_img);
               mouse_div.appendChild(mouse_text);
 
               $(`.for-board`).append(mouse_div);
@@ -153,12 +161,15 @@
           }
 
           function pic_tool_click(pick) {
+            console.log(pick);
             if (tools[pick.value]) {
               tool = new tools[pick.value]();
             }
             if (pick.value != "bgcolor") {
               bg_color = false;
             }
+            $(".buttons").find(".bg-white").removeClass("bg-white");
+            $(`#${pick.id}`).addClass("bg-white");
           }
 
           $("#pencil-button").click(function () {
@@ -263,7 +274,7 @@
               var cpos = { top: e.clientY + 10, left: e.clientX + 10 };
               // console.log(cpos, "canvas");
 
-              node_scoket.emit("mousemove", { user: user_id, cpos: cpos });
+              channel.push("mousemove", { user: user_id, cpos: cpos });
             },
             false
           );

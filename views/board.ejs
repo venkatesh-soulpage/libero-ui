@@ -128,25 +128,21 @@
           class="card card-body col-xl-6 col-lg-8 col-md-10 mx-auto mt-4"
           style="background-color: #ececec; border-radius: 10px;"
         >
-          <div class="justify-content-between d-sm-flex">
+          <div class="justify-content-between d-sm-flex buttons">
             <button
-              class="btn btn-sm border-0 bg-transparent"
+              class="btn btn-sm border-0 bg-white"
               id="pencil-button"
               value="pencil"
             >
               <img src="/icons/pencil.svg" alt="" class="d-block mx-auto" />
               <span class="d-block mt-2">Pencil</span>
             </button>
-            <button
-              class="btn btn-sm border-0 bg-transparent"
-              id="rect-button"
-              value="rect"
-            >
+            <button class="btn btn-sm border-0" id="rect-button" value="rect">
               <img src="/icons/rectangle.svg" alt="" class="d-block mx-auto" />
               <span class="d-block mt-2">Rectangle</span>
             </button>
             <button
-              class="btn btn-sm border-0 bg-transparent"
+              class="btn btn-sm border-0"
               id="circle-button"
               value="circle"
             >
@@ -154,30 +150,22 @@
               <span class="d-block mt-2">Circle</span>
             </button>
             <button
-              class="btn btn-sm border-0 bg-transparent"
+              class="btn btn-sm border-0"
               id="ellipse-button"
               value="ellipse"
             >
               <img src="/icons/ellipse.svg" alt="" class="d-block mx-auto" />
               <span class="d-block mt-2">Ellipse</span>
             </button>
-            <button
-              class="btn btn-sm border-0 bg-transparent"
-              id="line-button"
-              value="line"
-            >
+            <button class="btn btn-sm border-0" id="line-button" value="line">
               <img src="/icons/line.svg" alt="" class="d-block mx-auto" />
               <span class="d-block mt-2">Line</span>
             </button>
-            <button
-              class="btn btn-sm border-0 bg-transparent"
-              id="text-button"
-              value="text"
-            >
+            <button class="btn btn-sm border-0" id="text-button" value="text">
               <img src="/icons/text.svg" alt="" class="d-block mx-auto" />
               <span class="d-block mt-2">Text</span>
             </button>
-            <button class="btn btn-sm border-0 bg-transparent" id="clear-all">
+            <button class="btn btn-sm border-0" id="clear-all">
               <img src="/icons/trash.svg" alt="" class="d-block mx-auto" />
               <span class="d-block mt-2">Clear All</span>
             </button>
@@ -202,7 +190,13 @@
                 class="btn rounded-circle color-click"
                 style="width: 25px; height: 25px;"
               ></button>
-              <input type="color" name="" id="colour-picker" hidden />
+              <input
+                type="color"
+                name=""
+                value="#47b347"
+                id="colour-picker"
+                hidden
+              />
               <span class="d-block for-color mt-1">Color</span>
             </span>
 
